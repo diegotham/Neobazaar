@@ -17,9 +17,7 @@ Free classifieds web application
     ],
     "require": {
         ......,
-        "razor/watermarker" : "dev-master"
-        "razor/cropper" : "dev-master"
-        "razor/thumbnailer" : "dev-master"
+        "neobazaar/neobazaar": "dev-master",
     }
 }
  ```
