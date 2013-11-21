@@ -1,0 +1,27 @@
+{
+    "name": "neobazaar/neobazaar",
+    "description": "Neobazaar main module. This contains Doctrine 2 entities and repositories",
+    "type": "library",
+    "keywords": [
+        neobazaar"
+    ],
+    "homepage": "https://github.com/kaiohken1982/Neobazaar",
+    "authors": [
+        {
+            "name": "Sergio Rinaudo",
+            "email": "kaiohken1982@hotmail.com",
+            "homepage": "http://www.sergiorinaudo.com/"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "autoload": {
+        "psr-0": {
+            "Neobazaar": "src/"
+        },
+        "classmap": [
+            "./Module.php"
+        ]
+    }
+}
