@@ -253,7 +253,7 @@ class DocumentRepository
 	 */
 	public function get($document, ServiceManager $sm, $forceFullData = false) 
 	{
-		if(!$document instanceof \Neobazaar\Entity\Document) {
+		if (!$document instanceof \Neobazaar\Entity\Document) {
 			if(is_numeric($document)) {
 				$document = $this->find($document);
 			} else {
@@ -288,7 +288,7 @@ class DocumentRepository
 		}
 		
 		// do not check if user is admin, owner ecc
-		if($forceFullData) {	
+		if ($forceFullData) {	
 			return $file;
 		}
 		
@@ -297,7 +297,7 @@ class DocumentRepository
 		$auth = $sm->get('ControllerPluginManager')->get('zfcUserAuthentication');
 		$identity = $auth->hasIdentity() ? $auth->getIdentity() : null;
 		$userModel = null !== $identity ? new UserModel($identity, $sm) : null;
-		if(
+		if (
 			null === $identity || 
 			null === $userModel || 
 			(!$userModel->isAdmin && 
