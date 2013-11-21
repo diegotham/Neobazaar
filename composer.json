@@ -3,7 +3,7 @@
     "description": "Neobazaar main module. This contains Doctrine 2 entities and repositories",
     "type": "library",
     "keywords": [
-        "neobazaar"
+        "neobazaar", "free", "classifieds"
     ],
     "homepage": "https://github.com/kaiohken1982/Neobazaar",
     "authors": [
