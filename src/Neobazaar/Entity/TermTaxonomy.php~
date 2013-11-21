@@ -1,0 +1,80 @@
+<?php
+
+namespace Neobazaar\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * TermTaxonomy
+ *
+ * @ORM\Table(name="term_taxonomy")
+ * @ORM\Entity
+ */
+class TermTaxonomy
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="term_taxonomy_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $termTaxonomyId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="taxonomy", type="string", length=30, nullable=false)
+     */
+    private $taxonomy;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=99, nullable=false)
+     */
+    private $description;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="count", type="integer", nullable=false)
+     */
+    private $count;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Neobazaar\Entity\Document", mappedBy="termTaxonomy")
+     */
+    private $document;
+
+    /**
+     * @var \Neobazaar\Entity\TermTaxonomy
+     *
+     * @ORM\ManyToOne(targetEntity="Neobazaar\Entity\TermTaxonomy")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="parent", referencedColumnName="term_taxonomy_id")
+     * })
+     */
+    private $parent;
+
+    /**
+     * @var \Neobazaar\Entity\Term
+     *
+     * @ORM\ManyToOne(targetEntity="Neobazaar\Entity\Term")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="term_id", referencedColumnName="term_id")
+     * })
+     */
+    private $term;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->document = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+}

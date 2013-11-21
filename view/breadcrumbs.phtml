@@ -1,0 +1,11 @@
+<?php
+echo '<ul class="breadcrumb">';
+if (count($this->pages) > 0) :
+    foreach ($this->pages as $page) :
+        echo "<li>";
+            echo $this->navigation()->menu()->htmlify($page, false, false, false);
+            echo '<span class="divider"></span>';
+        echo "</li>";
+    endforeach;
+endif;
+echo '</ul>';

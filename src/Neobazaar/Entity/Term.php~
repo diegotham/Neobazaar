@@ -1,0 +1,42 @@
+<?php
+
+namespace Neobazaar\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Term
+ *
+ * @ORM\Table(name="term")
+ * @ORM\Entity
+ */
+class Term
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=200, nullable=false)
+     */
+    private $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="slug", type="string", length=200, nullable=false)
+     */
+    private $slug;
+
+    /**
+     * @var \Neobazaar\Entity\TermTaxonomy
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="Neobazaar\Entity\TermTaxonomy")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="term_id", referencedColumnName="term_id")
+     * })
+     */
+    private $term;
+
+
+}

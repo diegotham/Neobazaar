@@ -1,0 +1,62 @@
+<?php 
+/**
+ * Funzionalità iterativo-ricorsiva per la generazione del menù
+ */
+if(!function_exists('renderMenu')) {
+    function renderMenu($container, $obj, $step = 0) {
+        $html = '';
+        if(null !== $container && $container->count()) {
+
+            if(!$step) {
+                $html.= '<ul class="nav nav-pills">' . PHP_EOL;
+                $step++;
+            } elseif($step == 1) {
+                $html.= '<ul class="dropdown-menu">' . PHP_EOL;
+                $step++;
+            } else {
+                $html.= '<ul class="dropdown-menu sub-menu">' . PHP_EOL;
+            }
+            
+            foreach($container AS $page) {
+                $class = array();
+                if(null !== $page->class) {
+                    $class[] = $page->class;
+                }
+                if($page->isActive(true)) {
+                    $class[] = "active";
+                }
+                if($page->count() > 0) {
+                    $class[] = "dropdown";
+                }
+                
+                $class = implode(" ", $class);
+                
+                if($page->count() > 0) {
+                    $html.= '<li class="' . $class .'"><a style="cursor: \'pointer\';" class="dropdown-toggle" data-toggle="dropdown">' . $obj->translate($page->label);
+                    if($step == 1) {
+                         $html.= '<b class="caret"></b></a>';
+                    } else {
+                        $html.= '<i >&nbsp;</i><i class="icon-arrow-right"></i></a>';
+                    }
+                } else {
+                    $html.= '<li class="' . $class .'"><a href="' . $page->getHref() . '" >' . $page->getLabel() . '</a>';
+                }
+                
+                // Ricorsione per le sottopagine
+                if($page->count() > 0) {
+                    $html.= renderMenu($page, $obj, $step);
+                }
+                $html.= '</li>' . PHP_EOL;
+                
+                if(!$step) {
+                    $html.= '<li class="divider-vertical"></li>' . PHP_EOL;
+                }
+            }
+            $html.= '</ul>' . PHP_EOL;
+        }
+        return $html;
+    }
+}
+
+echo renderMenu($this->container->findByLabel('Home'), $this);
+?>

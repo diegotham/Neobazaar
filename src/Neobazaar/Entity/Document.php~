@@ -1,0 +1,133 @@
+<?php
+
+namespace Neobazaar\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Document
+ *
+ * @ORM\Table(name="document")
+ * @ORM\Entity
+ */
+class Document
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="document_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $documentId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="document_type", type="string", length=19, nullable=false)
+     */
+    private $documentType;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="title", type="string", length=200, nullable=false)
+     */
+    private $title;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="content", type="text", nullable=false)
+     */
+    private $content;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="state", type="smallint", nullable=false)
+     */
+    private $state;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="visited", type="integer", nullable=false)
+     */
+    private $visited;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ip_insert", type="string", length=15, nullable=true)
+     */
+    private $ipInsert;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_insert", type="datetime", nullable=true)
+     */
+    private $dateInsert;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_edit", type="datetime", nullable=true)
+     */
+    private $dateEdit;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Neobazaar\Entity\TermTaxonomy", inversedBy="document")
+     * @ORM\JoinTable(name="term_relationship",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="document_id", referencedColumnName="document_id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="term_taxonomy_id", referencedColumnName="term_taxonomy_id")
+     *   }
+     * )
+     */
+    private $termTaxonomy;
+
+    /**
+     * @var \Neobazaar\Entity\User
+     *
+     * @ORM\ManyToOne(targetEntity="Neobazaar\Entity\User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
+     * })
+     */
+    private $user;
+
+    /**
+     * @var \Neobazaar\Entity\Geonames
+     *
+     * @ORM\ManyToOne(targetEntity="Neobazaar\Entity\Geonames")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="geoname_id", referencedColumnName="geoname_id")
+     * })
+     */
+    private $geoname;
+
+    /**
+     * @var \Neobazaar\Entity\Document
+     *
+     * @ORM\ManyToOne(targetEntity="Neobazaar\Entity\Document")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="parent_id", referencedColumnName="document_id")
+     * })
+     */
+    private $parent;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->termTaxonomy = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+}

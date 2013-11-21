@@ -1,0 +1,49 @@
+<?php
+
+namespace Neobazaar\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * UserMeta
+ *
+ * @ORM\Table(name="user_meta")
+ * @ORM\Entity
+ */
+class UserMeta
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="user_meta_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $userMetaId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="key", type="string", length=30, nullable=false)
+     */
+    private $key;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="value", type="text", nullable=false)
+     */
+    private $value;
+
+    /**
+     * @var \Neobazaar\Entity\User
+     *
+     * @ORM\ManyToOne(targetEntity="Neobazaar\Entity\User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
+     * })
+     */
+    private $user;
+
+
+}

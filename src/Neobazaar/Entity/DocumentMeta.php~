@@ -1,0 +1,49 @@
+<?php
+
+namespace Neobazaar\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * DocumentMeta
+ *
+ * @ORM\Table(name="document_meta")
+ * @ORM\Entity
+ */
+class DocumentMeta
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="document_meta_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $documentMetaId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="key", type="string", length=30, nullable=false)
+     */
+    private $key;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="value", type="text", nullable=false)
+     */
+    private $value;
+
+    /**
+     * @var \Neobazaar\Entity\Document
+     *
+     * @ORM\ManyToOne(targetEntity="Neobazaar\Entity\Document")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="document_id", referencedColumnName="document_id")
+     * })
+     */
+    private $document;
+
+
+}

@@ -1,0 +1,16 @@
+<?php echo $this->doctype(); ?>
+<html ng-app="Neobazaar">
+    <head>
+        <?php echo $this->headMeta() . "\n" ?>
+        <?php echo $this->headTitle() . "\n" ?>
+        <?php echo $this->headLink() . "\n" ?>
+        <?php echo $this->headStyle() . "\n" ?>
+        <?php echo $this->headScript() . "\n" ?>
+    </head>
+    <body>
+    	<div class="container">
+			<?php echo $this->content . "\n" ?>
+	    </div>
+    	<?php echo $this->inlineScript() . "\n" ?>
+    </body>
+</html>
