@@ -247,9 +247,11 @@ class DocumentRepository
 	 * Return a normalized representation of a document
 	 * 
 	 * @param int|\Neobazaar\Entity\Document $id
+	 * @param ServiceManager 
+	 * @param boolean wheter or not chec if user is admin, owner ecc
 	 * @return \stdClass
 	 */
-	public function get($document, ServiceManager $sm) 
+	public function get($document, ServiceManager $sm, $forceFullData = false) 
 	{
 		if(!$document instanceof \Neobazaar\Entity\Document) {
 			if(is_numeric($document)) {
@@ -283,6 +285,11 @@ class DocumentRepository
 				
 				$cache->setItem($key, $file);
 				break;
+		}
+		
+		// do not check if user is admin, owner ecc
+		if($forceFullData) {	
+			return $file;
 		}
 		
 		// Before return it, some security work.

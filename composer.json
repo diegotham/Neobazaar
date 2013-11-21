@@ -17,7 +17,9 @@
         "php": ">=5.3.3",
         "zendframework/zendframework": ">2.2.0rc1",
 		"doctrine/doctrine-orm-module": "0.*",
-		"beberlei/DoctrineExtensions": "dev-master"
+		"beberlei/DoctrineExtensions": "dev-master",
+        "zf-commons/zfc-user": "dev-master",
+        "razor/razor"
     },
     "suggest": {
     },
