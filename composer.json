@@ -18,8 +18,7 @@
         "zendframework/zendframework": ">2.2.0rc1",
 		"doctrine/doctrine-orm-module": "0.*",
 		"beberlei/DoctrineExtensions": "dev-master",
-        "zf-commons/zfc-user": "dev-master",
-        "razor/razor",
+        "zf-commons/zfc-user": "dev-master"
     },
     "suggest": {
     },
