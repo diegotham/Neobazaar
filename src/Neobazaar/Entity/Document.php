@@ -3,6 +3,7 @@
 namespace Neobazaar\Entity;
 
 use Doctrine\ORM\Mapping as ORM,
+	Doctrine\ORM\Event\PreUpdateEventArgs,
 	Doctrine\Common\Collections\Collection,
 	Doctrine\Common\Collections\ArrayCollection,
 	Doctrine\Common\Util\Debug as DDebug;
@@ -551,9 +552,9 @@ class Document
     /**
      * @ORM\PreUpdate
      */
-    public function preUpdate()
+    public function preUpdate(PreUpdateEventArgs $eventArgs)
     {
-    	if(null === $this->getVisited()) {
+    	if (!$eventArgs->hasChangedField('visited')) {
     		$this->setDateEdit(new \Datetime());
     	}
     }
