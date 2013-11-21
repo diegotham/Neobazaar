@@ -19,7 +19,7 @@
 		"doctrine/doctrine-orm-module": "0.*",
 		"beberlei/DoctrineExtensions": "dev-master",
         "zf-commons/zfc-user": "dev-master",
-        "razor/razor"
+        "razor/razor",
     },
     "suggest": {
     },
