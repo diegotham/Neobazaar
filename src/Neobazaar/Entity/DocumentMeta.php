@@ -16,7 +16,7 @@ class DocumentMeta
     /**
      * @var integer
      *
-     * @ORM\Column(name="document_meta_id", type="integer", nullable=false)
+     * @ORM\Column(name="document_meta_id", type="integer", length=11, nullable=false, options={"unsigned"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -32,7 +32,7 @@ class DocumentMeta
     /**
      * @var string
      *
-     * @ORM\Column(name="`value`", type="text", nullable=false)
+     * @ORM\Column(name="`value`", type="text", nullable=true)
      */
     protected $value;
 
@@ -41,7 +41,7 @@ class DocumentMeta
      *
      * @ORM\ManyToOne(targetEntity="Neobazaar\Entity\Document", inversedBy="metadata")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="document_id", referencedColumnName="document_id")
+     *   @ORM\JoinColumn(name="document_id", nullable=false, referencedColumnName="document_id")
      * })
      */
     protected $document;

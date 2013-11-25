@@ -127,6 +127,7 @@ class GeonamesRepository
         
 		switch($entity->getFeatureCode()) {
 			case 'ADM3':
+			case 'PPLA3':
 			default:
 		        $qb->andWhere($qb->expr()->eq('a.featureCode', ':featureCode'));
 		        $qb->andWhere($qb->expr()->eq('a.countryCode', ':countrycode'));

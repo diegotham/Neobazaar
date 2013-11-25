@@ -3,6 +3,7 @@
 namespace Neobazaar\Entity;
 
 use Doctrine\ORM\Mapping as ORM,
+	Doctrine\ORM\Event\PreUpdateEventArgs,
 	Doctrine\Common\Collections\Collection,
 	Doctrine\Common\Collections\ArrayCollection,
 	Doctrine\Common\Util\Debug as DDebug;
@@ -10,7 +11,14 @@ use Doctrine\ORM\Mapping as ORM,
 /**
  * TermTaxonomy
  *
- * @ORM\Table(name="term_taxonomy")
+ * @ORM\Table(name="term_taxonomy", 
+ * 	uniqueConstraints={
+ * 		@ORM\UniqueConstraint(name="term_taxonomy",columns={"term_id", "taxonomy"})
+ * }, 
+ * 	indexes={
+ * 		@ORM\Index(name="term_id", columns={"term_id"}),
+ * 		@ORM\Index(name="parent", columns={"parent"})
+ * })
  * @ORM\HasLifecycleCallbacks
  * @ORM\Entity(repositoryClass="Neobazaar\Entity\Repository\TermTaxonomyRepository")
  */
@@ -19,7 +27,7 @@ class TermTaxonomy
     /**
      * @var integer
      *
-     * @ORM\Column(name="term_taxonomy_id", type="integer", nullable=false)
+     * @ORM\Column(name="term_taxonomy_id", type="integer", length=11, nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -35,7 +43,7 @@ class TermTaxonomy
     /**
      * @var string
      *
-     * @ORM\Column(name="term_id", type="integer", length=11, nullable=false)
+     * @ORM\Column(name="term_id", type="integer", length=11, nullable=false, options={"unsigned"=true})
      */
     private $termId;
 
@@ -49,14 +57,14 @@ class TermTaxonomy
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="string", length=99, nullable=false)
+     * @ORM\Column(name="description", type="string", length=99, nullable=true)
      */
     private $description;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="count", type="integer", nullable=false)
+     * @ORM\Column(name="count", type="integer", length=11, nullable=true, options={"default" = 1})
      */
     private $count;
 
@@ -72,7 +80,7 @@ class TermTaxonomy
      *
      * @ORM\ManyToOne(targetEntity="Neobazaar\Entity\TermTaxonomy")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="parent", referencedColumnName="term_taxonomy_id")
+     *   @ORM\JoinColumn(name="parent", nullable=false, referencedColumnName="term_taxonomy_id")
      * })
      */
     private $parent;
@@ -275,10 +283,22 @@ class TermTaxonomy
     }
     
     /**
+     * @ORM\PreUpdate
+     */
+    public function preUpdate(PreUpdateEventArgs $eventArgs)
+    {
+    	if(null === $this->getParent()) {
+    		$this->setParent(0);
+    	}
+    }
+    
+    /**
      * @ORM\PrePersist
      */
     public function prePersist()
     {
-    	
+    	if(null === $this->getParent()) {
+    		$this->setParent(0);
+    	}
     }
 }

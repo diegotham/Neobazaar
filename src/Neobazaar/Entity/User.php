@@ -10,7 +10,12 @@ use Doctrine\ORM\Mapping as ORM,
 /**
  * User
  *
- * @ORM\Table(name="user")
+ * @ORM\Table(name="user", 
+ * 	uniqueConstraints={
+ * 		@ORM\UniqueConstraint(name="username", columns={"username"}),
+ * 		@ORM\UniqueConstraint(name="email", columns={"email"}),
+ * 		@ORM\UniqueConstraint(name="nicename", columns={"nicename"})
+ * })
  * @ORM\HasLifecycleCallbacks
  * @ORM\Entity(repositoryClass="Neobazaar\Entity\Repository\UserRepository")
  */
@@ -25,7 +30,7 @@ class User
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @ORM\Column(name="user_id", type="integer", length=10, nullable=false, options={"unsigned"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -62,42 +67,42 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="surname", type="string", length=50, nullable=false)
+     * @ORM\Column(name="surname", type="string", length=50, nullable=true)
      */
     private $surname;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="password", type="string", length=128, nullable=false)
+     * @ORM\Column(name="password", type="string", length=128, nullable=true)
      */
     private $password;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="locale", type="string", length=5, nullable=false)
+     * @ORM\Column(name="locale", type="string", length=5, nullable=true, options={"default" = "en_GB"})
      */
     private $locale;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="role", type="string", length=19, nullable=false)
+     * @ORM\Column(name="role", type="string", length=19, nullable=true, options={"default" = "guest"})
      */
     private $role;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="gender", type="string", length=1, nullable=false)
+     * @ORM\Column(name="gender", type="string", length=1, nullable=true)
      */
     private $gender;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="state", type="smallint", nullable=true)
+     * @ORM\Column(name="state", type="smallint", nullable=true, options={"unsigned"=true})
      */
     private $state;
 

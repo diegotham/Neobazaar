@@ -7,7 +7,11 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Geonames
  *
- * @ORM\Table(name="geonames")
+ * @ORM\Table(name="geonames", 
+ * 	indexes={
+ * 		@ORM\Index(name="country_code", columns={"country_code"}),
+ * 		@ORM\Index(name="feature_code", columns={"feature_code"}),
+ * })
  * @ORM\Entity(repositoryClass="Neobazaar\Entity\Repository\GeonamesRepository")
  */
 class Geonames
@@ -15,7 +19,7 @@ class Geonames
     /**
      * @var integer
      *
-     * @ORM\Column(name="geoname_id", type="integer", nullable=false)
+     * @ORM\Column(name="geoname_id", type="integer", length=8, nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -45,7 +49,7 @@ class Geonames
     /**
      * @var string
      *
-     * @ORM\Column(name="url", type="string", length=49, nullable=false)
+     * @ORM\Column(name="url", type="string", length=49, nullable=true)
      */
     private $url;
 
@@ -94,28 +98,28 @@ class Geonames
     /**
      * @var string
      *
-     * @ORM\Column(name="admin1_code", type="string", length=20, nullable=false)
+     * @ORM\Column(name="admin1_code", type="string", length=20, nullable=true)
      */
     private $admin1Code;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="admin2_code", type="string", length=80, nullable=false)
+     * @ORM\Column(name="admin2_code", type="string", length=20, nullable=true)
      */
     private $admin2Code;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="admin3_code", type="string", length=20, nullable=false)
+     * @ORM\Column(name="admin3_code", type="string", length=20, nullable=true)
      */
     private $admin3Code;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="admin4_code", type="string", length=20, nullable=false)
+     * @ORM\Column(name="admin4_code", type="string", length=20, nullable=true)
      */
     private $admin4Code;
 

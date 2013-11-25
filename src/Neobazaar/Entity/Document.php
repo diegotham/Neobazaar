@@ -31,7 +31,7 @@ class Document
     /**
      * @var integer
      *
-     * @ORM\Column(name="document_id", type="integer", nullable=false)
+     * @ORM\Column(name="document_id", type="integer", length=11, nullable=false, options={"unsigned"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -54,21 +54,21 @@ class Document
     /**
      * @var string
      *
-     * @ORM\Column(name="content", type="text", nullable=false)
+     * @ORM\Column(name="content", type="text", nullable=true)
      */
     protected $content;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="state", type="smallint", nullable=false)
+     * @ORM\Column(name="state", type="smallint", nullable=false, options={"default" = 1})
      */
     protected $state;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="visited", type="integer", nullable=false)
+     * @ORM\Column(name="visited", type="integer", nullable=false, options={"default" = 0})
      */
     protected $visited;
 
@@ -113,7 +113,7 @@ class Document
      *
      * @ORM\ManyToOne(targetEntity="Neobazaar\Entity\Document", inversedBy="children", cascade={"persist"})
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="parent_id", referencedColumnName="document_id")
+     *   @ORM\JoinColumn(name="parent_id", nullable=false, referencedColumnName="document_id")
      * })
      */
     protected $parent;
@@ -137,7 +137,7 @@ class Document
      *
      * @ORM\ManyToOne(targetEntity="Neobazaar\Entity\User", inversedBy="document", cascade={"persist"})
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
+     *   @ORM\JoinColumn(name="user_id", nullable=false, referencedColumnName="user_id")
      * })
      */
     protected $user;
@@ -147,7 +147,7 @@ class Document
      *
      * @ORM\ManyToOne(targetEntity="Neobazaar\Entity\Geonames")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="geoname_id", referencedColumnName="geoname_id")
+     *   @ORM\JoinColumn(name="geoname_id", nullable=false, referencedColumnName="geoname_id")
      * })
      */
     protected $geoname;
@@ -554,6 +554,18 @@ class Document
      */
     public function preUpdate(PreUpdateEventArgs $eventArgs)
     {
+    	if(null === $this->getGeoname()) {
+    		$this->setGeoname(0);
+    	}
+    	
+    	if(null === $this->getUser()) {
+    		$this->setUser(0);
+    	}
+    	
+    	if(null === $this->getParent()) {
+    		$this->setParent(0);
+    	}
+    	
     	if (!$eventArgs->hasChangedField('visited')) {
     		$this->setDateEdit(new \Datetime());
     	}
@@ -564,6 +576,18 @@ class Document
      */
     public function prePersist()
     {
+    	if(null === $this->getGeoname()) {
+    		$this->setGeoname(0);
+    	}
+    	
+    	if(null === $this->getUser()) {
+    		$this->setUser(0);
+    	}
+    	
+    	if(null === $this->getParent()) {
+    		$this->setParent(0);
+    	}
+    	
 		$remote = new \Zend\Http\PhpEnvironment\RemoteAddress;
     	$this->setDateInsert(new \Datetime());
     	$this->setDateEdit(new \Datetime());

@@ -7,7 +7,11 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * UserMeta
  *
- * @ORM\Table(name="user_meta")
+ * @ORM\Table(name="user_meta", 
+ * 	indexes={
+ * 		@ORM\Index(name="user_meta_type_id", columns={"key"})
+ * }))
+ * @ORM\HasLifecycleCallbacks
  * @ORM\Entity
  */
 class UserMeta
@@ -15,7 +19,7 @@ class UserMeta
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_meta_id", type="integer", nullable=false)
+     * @ORM\Column(name="user_meta_id", type="integer", length=10, nullable=false, options={"unsigned"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -31,7 +35,7 @@ class UserMeta
     /**
      * @var string
      *
-     * @ORM\Column(name="value", type="text", nullable=false)
+     * @ORM\Column(name="value", type="text", nullable=true)
      */
     private $value;
 
@@ -40,7 +44,7 @@ class UserMeta
      *
      * @ORM\ManyToOne(targetEntity="Neobazaar\Entity\User", inversedBy="metadata")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
+     *   @ORM\JoinColumn(name="user_id", nullable=false, referencedColumnName="user_id")
      * })
      */
     private $user;
@@ -122,5 +126,25 @@ class UserMeta
     public function getUser()
     {
         return $this->user;
+    }
+    
+    /**
+     * @ORM\PreUpdate
+     */
+    public function preUpdate(PreUpdateEventArgs $eventArgs)
+    {
+    	if(null === $this->getUser()) {
+    		$this->setUser(0);
+    	}
+    }
+    
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersist()
+    {
+    	if(null === $this->getUser()) {
+    		$this->setUser(0);
+    	}
     }
 }
