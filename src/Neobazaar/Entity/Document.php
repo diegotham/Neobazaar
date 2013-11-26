@@ -554,18 +554,6 @@ class Document
      */
     public function preUpdate(PreUpdateEventArgs $eventArgs)
     {
-    	if(null === $this->getGeoname()) {
-    		$this->setGeoname(0);
-    	}
-    	
-    	if(null === $this->getUser()) {
-    		$this->setUser(0);
-    	}
-    	
-    	if(null === $this->getParent()) {
-    		$this->setParent(0);
-    	}
-    	
     	if (!$eventArgs->hasChangedField('visited')) {
     		$this->setDateEdit(new \Datetime());
     	}
@@ -576,18 +564,6 @@ class Document
      */
     public function prePersist()
     {
-    	if(null === $this->getGeoname()) {
-    		$this->setGeoname(0);
-    	}
-    	
-    	if(null === $this->getUser()) {
-    		$this->setUser(0);
-    	}
-    	
-    	if(null === $this->getParent()) {
-    		$this->setParent(0);
-    	}
-    	
 		$remote = new \Zend\Http\PhpEnvironment\RemoteAddress;
     	$this->setDateInsert(new \Datetime());
     	$this->setDateEdit(new \Datetime());
