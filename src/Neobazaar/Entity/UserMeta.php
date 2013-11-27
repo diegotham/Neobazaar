@@ -2,7 +2,8 @@
 
 namespace Neobazaar\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping as ORM,
+	Doctrine\ORM\Event\PreUpdateEventArgs;
 
 /**
  * UserMeta
