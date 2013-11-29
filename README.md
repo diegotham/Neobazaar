@@ -3,6 +3,10 @@ Neobazaar
 
 Free classifieds web application
 
+See in action NOW!! 
+
+http://www.neobazaar.com
+
 -- work in progress --
 
 
