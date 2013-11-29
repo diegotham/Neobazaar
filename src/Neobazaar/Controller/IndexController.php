@@ -97,7 +97,7 @@ class IndexController
 			$ids = $classifiedService->expired(1);
 			$data = array(
 				'status' => 'success',
-				'message' => 'Azione effettuata con successo'
+				'message' => implode(", ", $ids)
 			);
 		} catch(\Exception $e) {
 			$this->getResponse()
