@@ -158,20 +158,20 @@ class DocumentRepository
 	public function getExpiredElegibleToMailSend($limit = 10) 
 	{
 		$today = new \Datetime();
-		$interval = new \DateInterval('P3M'); // THIS IS THE DATE LIMIT MUST BE 6 MONTHS
+		$interval = new \DateInterval('P6M'); // THIS IS THE DATE LIMIT MUST BE 6 MONTHS P6M
 		$datetimeLimit = $today->sub($interval);
 		
 		$qb = $this->_em->createQueryBuilder();
 		$qb->select(array('a'));
 		$qb->from($this->getEntityName(), 'a');
-		$qb->andWhere($qb->expr()->eq('a.user', ':paramUser')); // remove remove remove remove remove remove remove remove remove remove remove
+		//$qb->andWhere($qb->expr()->eq('a.user', ':paramUser')); // remove remove remove remove remove remove remove remove remove remove remove
 		$qb->andWhere($qb->expr()->eq('a.documentType', ':paramDocumentType'));
 		$qb->andWhere($qb->expr()->eq('a.state', ':paramDocumentState'));
 		$qb->andWhere($qb->expr()->lte('a.dateEdit', ':paramDateEdit'));
 		$qb->setParameter('paramDocumentType', Document::DOCUMENT_TYPE_CLASSIFIED);
 		$qb->setParameter('paramDocumentState', Document::DOCUMENT_STATE_ACTIVE);
 		$qb->setParameter('paramDateEdit', $datetimeLimit);
-		$qb->setParameter('paramUser', 9); // remove remove remove remove remove remove remove remove remove remove remove remove remove 
+		//$qb->setParameter('paramUser', 9); // remove remove remove remove remove remove remove remove remove remove remove remove remove 
 		$qb->addOrderBy('a.dateEdit', 'ASC');
 		$qb->setFirstResult(0);
 		$qb->setMaxResults($limit);

@@ -94,7 +94,7 @@ class IndexController
 		$classifiedService = $this->getServiceLocator()->get('document.service.classified');
 		
 		try {
-			$ids = $classifiedService->expired(1);
+			$ids = $classifiedService->expired(5);
 			$data = array(
 				'status' => 'success',
 				'message' => implode(", ", $ids)
