@@ -1,6 +1,24 @@
 language: php
 
 php:
-  - 5.3.3
   - 5.3
   - 5.4
+  - 5.5
+ 
+branches:
+  only:
+    - master
+    
+notifications:
+  email: false
+
+before_script:
+  - curl -s http://getcomposer.org/installer | php
+  - php composer.phar install --prefer-dist --dev
+  
+script:
+  - mkdir -p build/logs
+  - ./vendor/bin/phpunit --coverage-clover ./build/logs/clover.xml
+
+after_script:
+  - php vendor/bin/coveralls -v

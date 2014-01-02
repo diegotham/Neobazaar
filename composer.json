@@ -2,6 +2,7 @@
     "name": "neobazaar/neobazaar",
     "description": "Neobazaar main module. This contains Doctrine 2 entities and repositories",
     "type": "library",
+    "license": "MIT",
     "keywords": [
         "neobazaar", "free", "classifieds"
     ],
@@ -15,10 +16,14 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        "zendframework/zendframework": ">2.2.0rc1",
+        "zendframework/zendframework": "2.*",
 		"doctrine/doctrine-orm-module": "0.*",
 		"beberlei/DoctrineExtensions": "dev-master",
-        "zf-commons/zfc-user": "dev-master"
+        "zf-commons/zfc-user": "dev-master",
+        "satooshi/php-coveralls": "dev-master"
+    },
+    "require-dev": {
+		"phpunit/phpunit" : "3.7.*"
     },
     "suggest": {
     },
@@ -29,5 +34,10 @@
         "classmap": [
             "./Module.php"
         ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
     }
 }
