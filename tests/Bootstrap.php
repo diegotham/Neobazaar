@@ -4,8 +4,14 @@ namespace NeobazaarTest; //Change this namespace for your test
 use Zend\Loader\AutoloaderFactory;
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager\ServiceManager;
+use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Stdlib\ArrayUtils;
 use RuntimeException;
+
+use Doctrine\Common\DataFixtures\Purger\ORMPurger as FixturePurger;
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor as FixtureExecutor;
+
+use Doctrine\ORM\Tools\SchemaTool;
 
 error_reporting(E_ALL | E_STRICT);
 chdir(__DIR__);
@@ -53,6 +59,29 @@ class Bootstrap
         $serviceManager = new ServiceManager(new ServiceManagerConfig());
         $serviceManager->setService('ApplicationConfig', $config);
         $serviceManager->get('ModuleManager')->loadModules();
+        
+        // @todo move to own factory class/add to merged configuration? Create a test module?
+        $serviceManager->setFactory(
+            'Doctrine\Common\DataFixtures\Executor\AbstractExecutor',
+            function(ServiceLocatorInterface $sl)
+            {
+                /* @var $em \Doctrine\ORM\EntityManager */
+                $em = $sl->get('Doctrine\ORM\EntityManager');
+                $schemaTool = new SchemaTool($em);
+                $schemaTool->createSchema($em->getMetadataFactory()->getAllMetadata());
+                return new FixtureExecutor($em, new FixturePurger($em));
+            }
+        );
+        
+        $serviceManager->setFactory(
+            'Neobazaar\Entity\Repository\DocumentRepository',
+            function(ServiceLocatorInterface $sl)
+            {
+                /* @var $em \Doctrine\ORM\EntityManager */
+                $em = $sl->get('Doctrine\ORM\EntityManager');
+                return $em->getRepository('Neobazaar\Entity\Document');
+            }
+        );
 
         static::$serviceManager = $serviceManager;
         static::$config = $config;

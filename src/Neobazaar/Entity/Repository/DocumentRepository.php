@@ -43,8 +43,8 @@ class DocumentRepository
 		// must check for limit
 		//$page = isset($params['page']) ? (int)$params['page'] : 1;
 		
-		$fields = array_values($params['field']);
-		$values = array_values($params['value']);
+		$fields = isset($params['field']) ? array_values($params['field']) : array();
+		$values = isset($params['value']) ? array_values($params['value']) : array();
 		
 		$page = $params['offset'] / $params['limit'] + 1;
 		$isLoggedUserSearch = false;
@@ -129,11 +129,11 @@ class DocumentRepository
 			$query = $this->fetchGridData($params);
 			$query->setFirstResult(0);
 			$query->setMaxResults($params['limit']);
-			$paginatorAdapter =  new RazorPaginator(
-				$query->getResult(),
-				$this->getSphinxClient()->getLastSearchCount()
-			);
-			//$paginatorAdapter = new DoctrinePaginatorAdapter(new DoctrinePaginator($query));
+// 			$paginatorAdapter =  new RazorPaginator(
+// 				$query->getResult(),
+// 				$this->getSphinxClient()->getLastSearchCount()
+// 			);
+			$paginatorAdapter = new DoctrinePaginatorAdapter(new DoctrinePaginator($query));
 		}
 		
 		$paginator = new Paginator($paginatorAdapter);

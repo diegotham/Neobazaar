@@ -10,3 +10,4 @@ composer.phar
 *.lock
 vendor
 build
+cache.properties

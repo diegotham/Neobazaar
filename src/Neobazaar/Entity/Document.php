@@ -113,7 +113,7 @@ class Document
      *
      * @ORM\ManyToOne(targetEntity="Neobazaar\Entity\Document", inversedBy="children", cascade={"persist"})
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="parent_id", nullable=false, referencedColumnName="document_id")
+     *   @ORM\JoinColumn(name="parent_id", nullable=true, referencedColumnName="document_id")
      * })
      */
     protected $parent;
@@ -137,7 +137,7 @@ class Document
      *
      * @ORM\ManyToOne(targetEntity="Neobazaar\Entity\User", inversedBy="document", cascade={"persist"})
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", nullable=false, referencedColumnName="user_id")
+     *   @ORM\JoinColumn(name="user_id", nullable=true, referencedColumnName="user_id")
      * })
      */
     protected $user;
@@ -147,7 +147,7 @@ class Document
      *
      * @ORM\ManyToOne(targetEntity="Neobazaar\Entity\Geonames")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="geoname_id", nullable=false, referencedColumnName="geoname_id")
+     *   @ORM\JoinColumn(name="geoname_id", nullable=true, referencedColumnName="geoname_id")
      * })
      */
     protected $geoname;
