@@ -7,7 +7,6 @@ nbproject
 .project
 .settings
 composer.phar
-*.lock
 vendor
 build
 cache.properties
