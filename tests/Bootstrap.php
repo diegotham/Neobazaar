@@ -68,6 +68,7 @@ class Bootstrap
                 /* @var $em \Doctrine\ORM\EntityManager */
                 $em = $sl->get('Doctrine\ORM\EntityManager');
                 $schemaTool = new SchemaTool($em);
+                $schemaTool->dropDatabase(); // drop previous created tables
                 $schemaTool->createSchema($em->getMetadataFactory()->getAllMetadata());
                 return new FixtureExecutor($em, new FixturePurger($em));
             }
