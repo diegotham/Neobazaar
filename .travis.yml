@@ -4,6 +4,9 @@ php:
   - 5.3
   - 5.4
   - 5.5
+  
+services: 
+  - mysql
  
 branches:
   only:
@@ -13,6 +16,7 @@ notifications:
   email: false
 
 before_script:
+  - mysql -e 'create database neobazaar_fixture;'
   - curl -s http://getcomposer.org/installer | php
   - php composer.phar install --prefer-dist --dev
   

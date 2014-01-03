@@ -22,6 +22,9 @@ class DocumentRepositoryTest
 
     public function setUp()
     {
+        // http://stackoverflow.com/questions/14752930/best-way-to-create-a-test-database-and-load-fixtures-on-symfony-2-webtestcase
+        self::runCommand('doctrine:fixtures:load --purge-with-truncate');
+        
         $sm = Bootstrap::getServiceManager();
         $this->repository = $sm->get('Neobazaar\Entity\Repository\DocumentRepository');
         $this->fixtureExectutor = $sm->get('Doctrine\Common\DataFixtures\Executor\AbstractExecutor');

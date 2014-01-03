@@ -9,7 +9,7 @@ return array(
                 'params' => array(
                     'host' => 'localhost',
                     'port' => '3306',
-                    'user'     => 'root',
+                    'user'     => 'travis',
                     'password' => '',
                     'dbname' => 'neobazaar_fixture',
 					'charset' => 'utf8',
