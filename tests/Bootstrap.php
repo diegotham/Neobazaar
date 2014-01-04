@@ -83,6 +83,16 @@ class Bootstrap
                 return $em->getRepository('Neobazaar\Entity\Document');
             }
         );
+        
+        $serviceManager->setFactory(
+            'Neobazaar\Entity\Repository\UserRepository',
+            function(ServiceLocatorInterface $sl)
+            {
+                /* @var $em \Doctrine\ORM\EntityManager */
+                $em = $sl->get('Doctrine\ORM\EntityManager');
+                return $em->getRepository('Neobazaar\Entity\User');
+            }
+        );
 
         static::$serviceManager = $serviceManager;
         static::$config = $config;

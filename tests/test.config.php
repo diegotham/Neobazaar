@@ -1,6 +1,14 @@
 <?php
 
 return array(
+	'navigation' => array(
+		'default' => array(
+             array(
+				'label' => 'Home',
+				'route' => 'home'
+             ),
+		),
+	),
     'doctrine' => array(
         'connection' => array(
             'orm_default' => array(
