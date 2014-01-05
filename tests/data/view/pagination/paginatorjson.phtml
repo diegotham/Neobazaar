@@ -1,0 +1,39 @@
+{
+	"message": "In visualizzazione record <?php echo $this->firstItemNumber;?>/<?php echo $this->lastItemNumber;?> di <?php echo $this->totalItemCount;?>",
+    
+	"previous": {
+		<?php if($this->previous): ?>
+			"link": "#<?php echo $this->url($this->route, array('page' => $this->previous) + $params, array('query' => $this->query)); ?>",
+			"class": "",
+			"onclick": "",
+		<?php else: ?>
+			"link": "#",
+			"class": "disabled",
+			"onclick": "return(false);",
+		<?php endif; ?>
+		"label": "«"
+	},
+	
+	"pages": [
+	    <?php foreach ($this->pagesInRange as $page): ?>
+    	{
+    		"link": "#<?php echo $this->url($this->route, array('page' => $page) + $params, array('query' => $this->query)); ?>",
+    		"class": "<?php echo $page == $this->current ? "active" : "" ?>",
+    		"label": "<?php echo $page; ?>"
+    	}<?php echo $page !== $this->lastPageInRange ? "," : "";?>
+		<?php endforeach; ?>
+	],
+	
+	"next": {
+		<?php if($this->previous): ?>
+			"link": "#<?php echo $this->url($this->route, array('page' => $this->next) + $params, array('query' => $this->query)); ?>",
+			"class": "",
+			"onclick": "",
+		<?php else: ?>
+			"link": "#",
+			"class": "disabled",
+			"onclick": "return(false);",
+		<?php endif; ?>
+		"label": "»"
+	}
+}

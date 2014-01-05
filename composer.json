@@ -21,7 +21,8 @@
         "razor/razor": "dev-master",
 		"beberlei/DoctrineExtensions": "dev-master",
         "zf-commons/zfc-user": "dev-master",
-        "satooshi/php-coveralls": "dev-master"
+        "satooshi/php-coveralls": "dev-master",
+        "neobazaar/user": "dev-master"
     },
     "require-dev": {
 		"phpunit/phpunit" : "3.7.*",

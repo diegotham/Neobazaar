@@ -10,12 +10,10 @@ use Doctrine\ORM\Mapping as ORM,
 	Doctrine\Common\Util\Debug as DDebug,
 	Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
 
-use Razor\Paginator\Adapter\Doctrine as RazorPaginator;
+use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrinePaginatorAdapter;
 
 use Neobazaar\Entity\User as UserEntity,
 	Neobazaar\Doctrine\ORM\EntityRepository;
-
-use User\Model\User as UserModel;
 
 /**
  * @author Sergio
@@ -49,8 +47,11 @@ class UserRepository
 		if(!$user instanceof UserEntity) {
 			return null;
 		}
-		
-		$userModel = new UserModel($user, $sm);
+	
+		$userModel = $sm->get('user.model.user');
+		$userModel->setServiceManager($sm);
+		$userModel->setUserEntity($user);
+		$userModel->init();
 		
 		return $userModel;
 	}
@@ -67,8 +68,11 @@ class UserRepository
 	{
 		$page = isset($params['page']) ? (int)$params['page'] : 1;
 		unset($params['page']);
-		$params['limit'] = 30;
-		$params['offset'] = $page * $params['limit'] - $params['limit'];
+		
+		$params['limit'] = isset($params['limit']) ? (int) $params['limit'] : 30;
+		// The eventual presence of 'offset' key has priority over calculated 'page' value
+		$params['offset'] = isset($params['offset']) ? (int) $params['offset'] : ($page * $params['limit'] - $params['limit']);
+		
 		$routeName = 'UserUser/page';
 		$routeParams = array('page' => $page);
 		
@@ -79,7 +83,6 @@ class UserRepository
 			$data[] = $this->get($user, $sm);
 		}
 		
-
 		unset($params['limit']);
 		unset($params['offset']);
 		$queryParams = $params;
@@ -100,10 +103,20 @@ class UserRepository
 		);
 	}
 	
-	public function getPaginator(array $params) 
+	/**
+	 * Return the paginator
+	 * 
+	 * @param array $params
+	 * @return \Zend\Paginator\Paginator
+	 */
+	public function getPaginator($params = array()) 
 	{
 		$page = isset($params['page']) ? (int)$params['page'] : 1;
 		$email = isset($params['email']) ? $params['email'] : null;
+		$limit = isset($params['limit']) ? (int) $params['limit'] : 10;
+		$offset = isset($params['offset']) ? (int) $params['offset'] : 0;
+		
+		
 		$qb = $this->_em->createQueryBuilder();
 		$qb->select(array('a'));
 		$qb->from($this->getEntityName(), 'a');
@@ -114,23 +127,23 @@ class UserRepository
 			$qb->setParameter('paramEmail', $email);
 		}
 		
-		
 		$query = $qb->getQuery();
-		$query->setFirstResult($params['offset']);
-		$query->setMaxResults($params['limit']);
-		$paginator = new DoctrinePaginator($query, $fetchJoinCollection = true);
-		$result = array();
-		foreach($paginator as $p) {
-			$result[] = $p->getUserId();
-		}
-		$result = $query->getResult();
-		$paginatorAdapter =  new RazorPaginator(
-			$result,
-			count($paginator)
-		);
+		$query->setFirstResult($offset);
+		$query->setMaxResults($limit);
+// 		$paginator = new DoctrinePaginator($query, $fetchJoinCollection = true);
+// 		$result = array();
+// 		foreach($paginator as $p) {
+// 			$result[] = $p->getUserId();
+// 		}
+// 		$result = $query->getResult();
+// 		$paginatorAdapter =  new RazorPaginator(
+// 			$result,
+// 			count($paginator)
+// 		);
+		$paginatorAdapter = new DoctrinePaginatorAdapter(new DoctrinePaginator($query));
 		$paginator = new Paginator($paginatorAdapter);
 		$paginator->setCurrentPageNumber($page);
-		$paginator->setDefaultItemCountPerPage($params['limit']);
+		$paginator->setDefaultItemCountPerPage($limit);
 		
 		return $paginator;
 	}

@@ -1,0 +1,27 @@
+<?php if ($this->pageCount): ?>
+<ul class="pagination pagination-lg">
+	<li><span>In visualizzazione record <?php echo $this->firstItemNumber;?>/<?php echo $this->lastItemNumber;?>
+			di <?php echo $this->totalItemCount;?> </span>
+	</li>
+	
+    <?php if($this->previous): ?>
+		<li><a href="<?php echo $this->url($this->route, array('page' => $this->previous) + $params, array('query' => $this->query)); ?>">«</a></li>
+	<?php else: ?>
+		<li class="disabled"><a href="#" onclick="return(false);">«</a></li>
+	<?php endif; ?>
+	
+    <?php foreach ($this->pagesInRange as $page): ?>
+    	<?php if($page == $this->current): ?>
+			<li class="active"><a href="<?php echo $this->url($this->route, array('page' => $page) + $params, array('query' => $this->query)); ?>"><?php echo $page; ?></a></li>
+		<?php else: ?>
+			<li><a href="<?php echo $this->url($this->route, array('page' => $page) + $params, array('query' => $this->query)); ?>"><?php echo $page; ?></a></li>
+		<?php endif;?>
+	<?php endforeach; ?>
+    
+    <?php if($this->next): ?>
+		<li><a href="<?php echo $this->url($this->route, array('page' => $this->next) + $params, array('query' => $this->query)); ?>">»</a></li>
+	<?php else: ?>
+		<li class="disabled"><a href="#" onclick="return(false);">»</a></li>
+	<?php endif; ?>
+</ul>
+<?php endif; ?>

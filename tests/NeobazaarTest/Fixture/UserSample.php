@@ -14,9 +14,9 @@ class USerSample
     public function load(ObjectManager $manager)
     {
         $this->user = new User();
-        $this->user->setState(User::USER_STATE_ACTIVE);
-        $this->user->setRole('guest');
         $this->user->setName('John');
+        $this->user->setRole('guest');
+        $this->user->setLocale('it_IT');
         $manager->persist($this->user);
         $manager->flush();
     }

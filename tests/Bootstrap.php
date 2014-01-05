@@ -5,8 +5,16 @@ use Zend\Loader\AutoloaderFactory;
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager\ServiceManager;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Stdlib\ArrayUtils;
+use Zend\Stdlib\ArrayUtils,
+    Zend\View\Renderer\PhpRenderer,
+	Zend\View\Resolver,
+	Zend\Navigation\Service\DefaultNavigationFactory;
+	
 use RuntimeException;
+
+use Neobazaar\Service\MainModuleService;
+
+use User\Model\User as UserModel;
 
 use Doctrine\Common\DataFixtures\Purger\ORMPurger as FixturePurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor as FixtureExecutor;
@@ -62,11 +70,25 @@ class Bootstrap
         
         // @todo move to own factory class/add to merged configuration? Create a test module?
         $serviceManager->setFactory(
+            'neobazaar.doctrine.em',
+            function(ServiceLocatorInterface $sl)
+            {
+                $em = $sl->get('doctrine.entitymanager.orm_default');
+                $em->getConfiguration()->addCustomStringFunction("SHA1", "DoctrineExtensions\Query\Mysql\Sha1");
+                $em->getConfiguration()->addCustomStringFunction("CONCAT_WS", "DoctrineExtensions\Query\Mysql\ConcatWs");
+                $em->getConfiguration()->addCustomStringFunction("FIELD", "DoctrineExtensions\Query\Mysql\Field");
+                $em->getConfiguration()->addCustomStringFunction("COALESCE", "Razor\Doctrine\Query\Mysql\Coalesce");
+            
+                return $em;
+            }
+        );
+        
+        $serviceManager->setFactory(
             'Doctrine\Common\DataFixtures\Executor\AbstractExecutor',
             function(ServiceLocatorInterface $sl)
             {
                 /* @var $em \Doctrine\ORM\EntityManager */
-                $em = $sl->get('Doctrine\ORM\EntityManager');
+                $em = $sl->get('neobazaar.doctrine.em');
                 $schemaTool = new SchemaTool($em);
                 $schemaTool->dropDatabase(); // drop previous created tables
                 $schemaTool->createSchema($em->getMetadataFactory()->getAllMetadata());
@@ -93,9 +115,61 @@ class Bootstrap
                 return $em->getRepository('Neobazaar\Entity\User');
             }
         );
+        
+        // This will setup phprenderer service
+        static::setUpPhpRenderer($serviceManager);
+        
+        $serviceManager->setFactory(
+            'neobazaar.service.main',
+            function(ServiceLocatorInterface $sl)
+            {
+                $service = new MainModuleService;
+                $service->setEntityManager($sl->get('neobazaar.doctrine.em'));
+                $service->setView($sl->get('Zend\View\Renderer\PhpRenderer'));
+                	
+                return $service;
+            }
+        );
+        
+        //'navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory',
 
         static::$serviceManager = $serviceManager;
         static::$config = $config;
+    }
+    
+    /**
+     * This will setup phprenderer using this module partials.
+     * It also contains neede helpers like 'url'
+     * 
+     * @param $serviceManager
+     * @return void
+     */
+    protected static function setUpPhpRenderer($serviceManager)
+    {
+        $modulePath = dirname(getcwd());
+        $renderer = new PhpRenderer();
+        $resolver = new Resolver\AggregateResolver();
+        $renderer->setResolver($resolver);
+        $map = new Resolver\TemplateMapResolver(array(
+            'layout'      => $modulePath . '/view/layout.phtml',
+            'index/index' => $modulePath . '/view/index/index.phtml',
+            'index/index' => $modulePath . '/view/index/index.phtml',
+        ));
+        $stack = new Resolver\TemplatePathStack(array(
+            'script_paths' => array(
+                $modulePath . '/view',
+                $modulePath . '/tests/data/view',
+            )
+        ));
+        $resolver->attach($map) // this will be consulted first
+            ->attach($stack);
+    
+        // Helper plugins, add here if more needed
+        $renderer->getHelperPluginManager()->setFactory('url', function () {
+            return new \NeobazaarTest\View\Helper\Url();
+        });
+        
+        $serviceManager->setService('Zend\View\Renderer\PhpRenderer', $renderer);
     }
 
     public static function getServiceManager()

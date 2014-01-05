@@ -42,7 +42,7 @@ class DocumentRepositoryTest
             'returnSelect' => true
         ));
 
-        $this->assertTrue(1 ===$paginator->count());
+        $this->assertTrue(1 === $paginator->count());
     }
 }
  

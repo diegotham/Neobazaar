@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "a56e7ab77034179c22e4f86eecce1534",
+    "hash": "7f7bed678a40a26c6c7634a6e18277fb",
     "packages": [
         {
             "name": "beberlei/DoctrineExtensions",
@@ -833,6 +833,48 @@
                 "web service"
             ],
             "time": "2013-12-05 23:39:20"
+        },
+        {
+            "name": "neobazaar/user",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kaiohken1982/NeobazaarUserModule.git",
+                "reference": "61ff2fe7a2853714c73f05106b1d058d4ab1cd82"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kaiohken1982/NeobazaarUserModule/zipball/61ff2fe7a2853714c73f05106b1d058d4ab1cd82",
+                "reference": "61ff2fe7a2853714c73f05106b1d058d4ab1cd82",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "User": "src/"
+                },
+                "classmap": [
+                    "./Module.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Sergio Rinaudo",
+                    "email": "kaiohken1982@hotmail.com",
+                    "homepage": "http://www.sergiorinaudo.com/"
+                }
+            ],
+            "description": "Neobazaar user module.",
+            "homepage": "https://github.com/kaiohken1982/NeobazaarUserModule",
+            "keywords": [
+                "neobazaar",
+                "user"
+            ],
+            "time": "2014-01-05 05:06:44"
         },
         {
             "name": "psr/log",
@@ -1948,6 +1990,7 @@
         "beberlei/doctrineextensions": 20,
         "zf-commons/zfc-user": 20,
         "satooshi/php-coveralls": 20,
+        "neobazaar/user": 20,
         "doctrine/data-fixtures": 20
     },
     "platform": {

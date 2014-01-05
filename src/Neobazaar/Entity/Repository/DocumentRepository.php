@@ -12,8 +12,6 @@ use Doctrine\ORM\Mapping as ORM,
 
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrinePaginatorAdapter;
 
-use Razor\Paginator\Adapter\Doctrine as RazorPaginator;
-
 use Neobazaar\Entity\Document,
 	Neobazaar\Doctrine\ORM\EntityRepository;
 
