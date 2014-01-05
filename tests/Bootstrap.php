@@ -116,6 +116,16 @@ class Bootstrap
             }
         );
         
+        $serviceManager->setFactory(
+            'Neobazaar\Entity\Repository\GeonamesRepository',
+            function(ServiceLocatorInterface $sl)
+            {
+                /* @var $em \Doctrine\ORM\EntityManager */
+                $em = $sl->get('Doctrine\ORM\EntityManager');
+                return $em->getRepository('Neobazaar\Entity\Geonames');
+            }
+        );
+        
         // This will setup phprenderer service
         static::setUpPhpRenderer($serviceManager);
         

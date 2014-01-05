@@ -6,7 +6,7 @@ use Doctrine\Common\DataFixtures\AbstractFixture,
  
 use Neobazaar\Entity\User;
 
-class USerSample 
+class UserSample 
     extends AbstractFixture
 {
     protected $user;
