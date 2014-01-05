@@ -4,9 +4,10 @@ namespace NeobazaarTest\Entity\Repository;
  
 use PHPUnit_Framework_TestCase;
 use Neobazaar\Entity\Repository\UserRepository;
-use NeobazaarTest\Bootstrap;
-use NeobazaarTest\Fixture\UserSample;
-use Zend\ServiceManager\ServiceLocatorInterface;
+
+use NeobazaarTest\Bootstrap,
+    NeobazaarTest\Fixture\DocumentSample,
+    NeobazaarTest\Fixture\UserSample;
 
 class UserRepositoryTest 
     extends PHPUnit_Framework_TestCase
@@ -39,7 +40,8 @@ class UserRepositoryTest
     {
         $sm = Bootstrap::getServiceManager();
         $users = $this->repository->findAll();
-        $user = $this->repository->find(1);
+        $user = reset($users);
+        $userId = $user->getUserId();
         
         // Mock 'User\Model\User' service
         $mock = $this->getMock('User\Model\User', array('setServiceManager', 'setUserEntity', 'init'));
@@ -57,12 +59,12 @@ class UserRepositoryTest
         // Passing the user param as user entity
         $userModel = $this->repository->get($user, $sm);
         // Passing the user param as int (id #1 created by fixture)
-        $userModel2 = $this->repository->get(1, $sm);
+        $userModel2 = $this->repository->get($userId, $sm);
         // Passing the user param as CURRENT_KEYWORD constant (trying to get currently connected user) 
         // that is actually nobody, so must return null
         $userModel3 = $this->repository->get(UserRepository::CURRENT_KEYWORD, $sm);
         // Passing an hash 
-        $hash = $this->repository->getEncryptedId(1);
+        $hash = $this->repository->getEncryptedId($userId);
         $userModel4 = $this->repository->get($hash, $sm);
 
         $this->assertEquals($userModel, $userModel2);

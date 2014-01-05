@@ -15,8 +15,7 @@ use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrinePaginatorAd
 use Neobazaar\Entity\Document,
 	Neobazaar\Doctrine\ORM\EntityRepository;
 
-use Document\Model\Classified as ClassifiedModel,
-	Document\Model\Image as ImageModel;
+use Document\Model\Image as ImageModel;
 
 use User\Model\User as UserModel;
 
@@ -34,9 +33,12 @@ class DocumentRepository
 	 */
 	public function getPaginator($params) 
 	{
-		if(!isset($params['offset']) || !isset($params['limit'])) {
-			throw new \Exception('Missing params limit and offset for pagination');
-		}
+        $limit = isset($params['limit']) ? (int) $params['limit'] : 10;
+        $offset = isset($params['offset']) ? (int) $params['offset'] : 0;
+        
+        // @todo (re)setting limit and offset, make it better...
+        $params['limit'] = $limit;
+        $params['offset'] = $offset;
 		
 		// must check for limit
 		//$page = isset($params['page']) ? (int)$params['page'] : 1;
@@ -201,8 +203,8 @@ class DocumentRepository
 		// Denormalizzazione parametri per creazione url da route
 		$queryParams = array();
 		$routeParams = array();
-		$fields = array_values($params['field']);
-		$values = array_values($params['value']);
+		$fields = isset($params['field']) ? array_values($params['field']) : array();
+		$values = isset($params['value']) ? array_values($params['value']) : array();
 		foreach($fields as $key => $field) {
 			if(in_array($field, array('location', 'purpose', 'category'))) {
 				$routeParams[$field] = $values[$key];
@@ -277,8 +279,11 @@ class DocumentRepository
 				
 				// document model
 				if(!$file = $cache->getItem($key)) {
-					// service?
-					$file = new ClassifiedModel($document, $sm);
+	
+            		$userModel = $sm->get('document.model.classified');
+            		$userModel->setServiceManager($sm);
+            		$userModel->setUserEntity($document);
+            		$userModel->init();
 				}
 				
 				$cache->setItem($key, $file);
