@@ -19,6 +19,8 @@ use Document\Model\Image as ImageModel;
 
 use User\Model\User as UserModel;
 
+use Razor\Paginator\Adapter\ArrayAdapter as RazorArrayAdapter;
+
 /**
  * This is used as a model in the rest classifieds controller
  * @author Sergio
@@ -129,12 +131,13 @@ class DocumentRepository
 			$query = $this->fetchGridData($params);
 			$query->setFirstResult(0);
 			$query->setMaxResults($params['limit']);
-// 			$paginatorAdapter =  new RazorPaginator(
-// 				$query->getResult(),
-// 				$this->getSphinxClient()->getLastSearchCount()
-// 			);
-			$paginatorAdapter = new DoctrinePaginatorAdapter(new DoctrinePaginator($query));
+			$paginatorAdapter =  new RazorArrayAdapter(
+				$query->getResult(),
+				$this->getSphinxClient()->getLastSearchCount()
+			);
+			//$paginatorAdapter = new DoctrinePaginatorAdapter(new DoctrinePaginator($query));
 		}
+		
 		
 		$paginator = new Paginator($paginatorAdapter);
 		$paginator->setCurrentPageNumber($page);
@@ -197,7 +200,7 @@ class DocumentRepository
 		
 		$data = array();
 		foreach($paginator as $post) {
-			$data[] = $this->get($post, $sm);
+			$data[] = $this->get($post, $sm); // verificare che cazzo fa sto get!!!!!
 		}
 
 		// Denormalizzazione parametri per creazione url da route
@@ -279,13 +282,10 @@ class DocumentRepository
 				
 				// document model
 				if(!$file = $cache->getItem($key)) {
-	
-            		$userModel = $sm->get('document.model.classified');
-            		$userModel->setServiceManager($sm);
-            		$userModel->setUserEntity($document);
-            		$userModel->init();
+            		$file = $sm->get('document.model.classified');
+            		$file->init($document, $sm);
 				}
-				
+
 				$cache->setItem($key, $file);
 				break;
 		}
