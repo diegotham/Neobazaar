@@ -24,6 +24,14 @@ class DocumentRepositoryTest
     {
         $sm = Bootstrap::getServiceManager();
         $this->repository = $sm->get('Neobazaar\Entity\Repository\DocumentRepository');
+        
+        // SphinxClient Mock
+        $sphinxClient = $this->getMock('SphinxClient', array('getLastSearchCount'));
+        $sphinxClient->expects($this->any())
+            ->method('getLastSearchCount')
+            ->will($this->returnValue(10));
+        
+        $this->repository->setSphinxClient($sphinxClient);
         $this->fixtureExectutor = $sm->get('Doctrine\Common\DataFixtures\Executor\AbstractExecutor');
         $this->assertInstanceOf('Neobazaar\Entity\Repository\DocumentRepository', $this->repository);
 
@@ -130,7 +138,7 @@ class DocumentRepositoryTest
         $paginationData = $list['paginationData'];
         
         $this->assertEquals(1, count($data));
-        $this->assertEquals('In visualizzazione record 1/1 di 1', $paginationData->message);
+        $this->assertEquals('In visualizzazione record 1/1 di 10', $paginationData->message);
         $this->assertEquals('disabled', $paginationData->next->class);
         $this->assertEquals('disabled', $paginationData->previous->class);
         $this->assertEquals(1, count($paginationData->pages));
