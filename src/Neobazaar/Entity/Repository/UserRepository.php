@@ -36,8 +36,10 @@ class UserRepository
 				$user = $this->find($user);
 			} else {
 				if(self::CURRENT_KEYWORD == $user) {
-					$zfcUserAuth = $sm->get('ControllerPluginManager')->get('zfcUserAuthentication');
-					$user = $zfcUserAuth->hasIdentity() ? $zfcUserAuth->getIdentity() : null;
+				    // @todo Not a wok of the repo, do it in another place!
+					//$zfcUserAuth = $sm->get('ControllerPluginManager')->get('zfcUserAuthentication');
+					//$user = $zfcUserAuth->hasIdentity() ? $zfcUserAuth->getIdentity() : null;
+					$user = null;
 				} else {
 					$user = $this->findByEncryptedId($user, 'userId');
 				}

@@ -1,7 +1,7 @@
 <?php
 return array(
     'modules' => array(
-    	'ZfcUser',
+    	'ZfcBase',
         'DoctrineModule',
         'DoctrineORMModule'
     ),

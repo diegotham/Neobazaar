@@ -297,17 +297,20 @@ class DocumentRepository
 		
 		// Before return it, some security work.
 		// No owner user should not see some data
-		$auth = $sm->get('ControllerPluginManager')->get('zfcUserAuthentication');
-		$identity = $auth->hasIdentity() ? $auth->getIdentity() : null;
-		$userModel = null !== $identity ? new UserModel($identity, $sm) : null;
-		if (
-			null === $identity || 
-			null === $userModel || 
-			(!$userModel->isAdmin && 
-				($identity && $identity->getEmail() != $file->email)) ) {
-			unset($file->email);
-			unset($file->username);
-		}
+		// @todo Do this check in another place or create different models depends on the state of the user
+		// Do not add such big dependency only for a single call of a single service
+		// W A R  N I N G: do this work!!  
+// 		$auth = $sm->get('ControllerPluginManager')->get('zfcUserAuthentication');
+// 		$identity = $auth->hasIdentity() ? $auth->getIdentity() : null;
+// 		$userModel = null !== $identity ? new UserModel($identity, $sm) : null;
+// 		if (
+// 			null === $identity || 
+// 			null === $userModel || 
+// 			(!$userModel->isAdmin && 
+// 				($identity && $identity->getEmail() != $file->email)) ) {
+// 			unset($file->email);
+// 			unset($file->username);
+// 		}
 				
 		return $file;
 	}
