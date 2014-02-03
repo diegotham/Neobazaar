@@ -12,7 +12,7 @@ Neobazaar is a free classifieds web application.
 It is composed by the following modules:
 
 - Neobazaar Skeleton Application 
-- Neobazaar Main Module (this module)
+- **Neobazaar Main Module** (this module)
 - Neobazaar Document Module
 - Neobazaar User Module 
 - Neobazaar Mailer Module 
