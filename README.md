@@ -18,6 +18,12 @@ It is composed by the following modules:
 - Neobazaar Mailer Module 
 - Neobazaar Public Application
 
+### Duties of this module
+
+- provide database mapping using Doctrine 2 
+- provide services with 'static' data (cities, categories etc.)
+- provide a main application service capable to return EntityManager and Entity Repositories.
+
 ### Install with Composer
  ```
 {
