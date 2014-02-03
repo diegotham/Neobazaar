@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "a56e7ab77034179c22e4f86eecce1534",
+    "hash": "f9e7eed63842e04c95d66b2d74eb8317",
     "packages": [
         {
             "name": "beberlei/DoctrineExtensions",
@@ -881,16 +881,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kaiohken1982/RazorMainModule.git",
-                "reference": "e95c6ca99170c02c5c7d3a42084db642a7fc9a9b"
+                "reference": "2634d5435ae14519a82c32bfc49c2958b40f7bbd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kaiohken1982/RazorMainModule/zipball/e95c6ca99170c02c5c7d3a42084db642a7fc9a9b",
-                "reference": "e95c6ca99170c02c5c7d3a42084db642a7fc9a9b",
+                "url": "https://api.github.com/repos/kaiohken1982/RazorMainModule/zipball/2634d5435ae14519a82c32bfc49c2958b40f7bbd",
+                "reference": "2634d5435ae14519a82c32bfc49c2958b40f7bbd",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3",
+                "satooshi/php-coveralls": "dev-master",
                 "zendframework/zendframework": "2.*"
             },
             "require-dev": {
@@ -927,7 +928,7 @@
                 "razor",
                 "zf2"
             ],
-            "time": "2014-01-31 22:00:34"
+            "time": "2014-01-31 23:53:22"
         },
         {
             "name": "satooshi/php-coveralls",
@@ -1412,16 +1413,16 @@
         },
         {
             "name": "zf-commons/zfc-base",
-            "version": "v0.1.2",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ZF-Commons/ZfcBase.git",
-                "reference": "fc68a49b58ba68584a9a4c44a1ca9df12b30d1bf"
+                "reference": "2d0e9013eaa4e59f5bec08444122a0f6c1c33107"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ZF-Commons/ZfcBase/zipball/fc68a49b58ba68584a9a4c44a1ca9df12b30d1bf",
-                "reference": "fc68a49b58ba68584a9a4c44a1ca9df12b30d1bf",
+                "url": "https://api.github.com/repos/ZF-Commons/ZfcBase/zipball/2d0e9013eaa4e59f5bec08444122a0f6c1c33107",
+                "reference": "2d0e9013eaa4e59f5bec08444122a0f6c1c33107",
                 "shasum": ""
             },
             "require": {
@@ -1461,73 +1462,7 @@
             "keywords": [
                 "zf2"
             ],
-            "time": "2013-05-02 12:33:49"
-        },
-        {
-            "name": "zf-commons/zfc-user",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ZF-Commons/ZfcUser.git",
-                "reference": "c5d6fe51643b8d774ac930389793ea629b3cce70"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ZF-Commons/ZfcUser/zipball/c5d6fe51643b8d774ac930389793ea629b3cce70",
-                "reference": "c5d6fe51643b8d774ac930389793ea629b3cce70",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3",
-                "zendframework/zend-authentication": "~2.1",
-                "zendframework/zend-crypt": "~2.1",
-                "zendframework/zend-form": "~2.1",
-                "zendframework/zend-inputfilter": "~2.1",
-                "zendframework/zend-loader": "~2.1",
-                "zendframework/zend-modulemanager": "~2.1",
-                "zendframework/zend-mvc": "~2.1",
-                "zendframework/zend-servicemanager": "~2.1",
-                "zendframework/zend-stdlib": "~2.1",
-                "zendframework/zend-validator": "~2.1",
-                "zendframework/zend-view": "~2.1",
-                "zf-commons/zfc-base": "0.*"
-            },
-            "suggest": {
-                "zendframework/zend-session": "To use the default authentication adapter."
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "ZfcUser": "src/"
-                },
-                "classmap": [
-                    "./Module.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "authors": [
-                {
-                    "name": "Kyle Spraggs",
-                    "email": "theman@spiffyjr.me",
-                    "homepage": "http://www.spiffyjr.me/"
-                },
-                {
-                    "name": "Evan Coury",
-                    "email": "me@evancoury.com",
-                    "homepage": "http://blog.evan.pro/"
-                }
-            ],
-            "description": "A generic user registration and authentication module for ZF2. Supports Zend\\Db and Doctrine2.",
-            "homepage": "https://github.com/ZF-Commons/ZfcUser",
-            "keywords": [
-                "zf2"
-            ],
-            "time": "2014-01-14 16:59:51"
+            "time": "2014-01-19 14:45:43"
         }
     ],
     "packages-dev": [
@@ -1589,16 +1524,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "1.2.14",
+            "version": "1.2.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "d4b3bc1c4b905cd0b3b356e8608857f26a041c1b"
+                "reference": "6ba4ed2895d538a039d5d5866edc4ec0424c7852"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/d4b3bc1c4b905cd0b3b356e8608857f26a041c1b",
-                "reference": "d4b3bc1c4b905cd0b3b356e8608857f26a041c1b",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/6ba4ed2895d538a039d5d5866edc4ec0424c7852",
+                "reference": "6ba4ed2895d538a039d5d5866edc4ec0424c7852",
                 "shasum": ""
             },
             "require": {
@@ -1646,7 +1581,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-01-31 08:51:59"
+            "time": "2014-02-03 07:44:47"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -1962,7 +1897,7 @@
     "stability-flags": {
         "razor/razor": 20,
         "beberlei/doctrineextensions": 20,
-        "zf-commons/zfc-user": 20,
+        "zf-commons/zfc-base": 20,
         "satooshi/php-coveralls": 20,
         "doctrine/data-fixtures": 20
     },
