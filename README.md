@@ -11,12 +11,12 @@ Neobazaar Main Module
 Neobazaar is a free classifieds web application.
 It is composed by the following modules:
 
-- Neobazaar Skeleton Application 
+- [Neobazaar Skeleton Application](https://github.com/kaiohken1982/NeobazaarSkeletonApplication)
 - **Neobazaar Main Module** (this module)
-- Neobazaar Document Module
-- Neobazaar User Module 
-- Neobazaar Mailer Module 
-- Neobazaar Public Application
+- [Neobazaar Document Module](https://github.com/kaiohken1982/NeobazaarDocumentModule)
+- [Neobazaar User Module](https://github.com/kaiohken1982/NeobazaarUserModule)
+- [Neobazaar Mailer Module](https://github.com/kaiohken1982/NeobazaarMailerModule) 
+- [Neobazaar Public Application](https://github.com/kaiohken1982/NeobazaarPublicApplication)
 
 ### Duties of this module
 
