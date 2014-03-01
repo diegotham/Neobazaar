@@ -247,6 +247,23 @@ class DocumentRepository
 	}
 	
 	/**
+	 * Return an IterableResult to create sitemap entries
+	 * 
+	 * @return \Doctrine\ORM\Internal\Hydration\IterableResult 
+	 */
+	public function getSitemapClassifiedsIterableResult() 
+	{
+		$qb = $this->_em->createQueryBuilder();
+		$qb->select(array('a'));
+		$qb->from($this->getEntityName(), 'a');
+		$qb->andWhere($qb->expr()->eq('a.documentType', Document::DOCUMENT_TYPE_CLASSIFIED));
+		$qb->andWhere($qb->expr()->eq('a.state', Document::DOCUMENT_STATE_ACTIVE));
+		$qb->addOrderBy('a.dateEdit', 'ASC');
+		
+		return $qb->getQuery()->iterate();
+	}
+	
+	/**
 	 * Return a normalized representation of a document
 	 * 
 	 * @param int|\Neobazaar\Entity\Document $id
