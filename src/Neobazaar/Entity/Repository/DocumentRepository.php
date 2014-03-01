@@ -255,9 +255,11 @@ class DocumentRepository
 	{
 		$qb = $this->_em->createQueryBuilder();
 		$qb->select(array('a'));
-		$qb->from($this->getEntityName(), 'a');
-		$qb->andWhere($qb->expr()->eq('a.documentType', Document::DOCUMENT_TYPE_CLASSIFIED));
-		$qb->andWhere($qb->expr()->eq('a.state', Document::DOCUMENT_STATE_ACTIVE));
+		$qb->from($this->getEntityName(), 'a');		
+		$qb->andWhere($qb->expr()->eq('a.documentType', ':paramDocumentType'));
+		$qb->andWhere($qb->expr()->eq('a.state', ':paramDocumentState'));
+		$qb->setParameter('paramDocumentType', Document::DOCUMENT_TYPE_CLASSIFIED);
+		$qb->setParameter('paramDocumentState', Document::DOCUMENT_STATE_ACTIVE);
 		$qb->addOrderBy('a.dateEdit', 'ASC');
 		
 		return $qb->getQuery()->iterate();
