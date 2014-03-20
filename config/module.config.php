@@ -174,6 +174,23 @@ return array(
 				)
 			)
         ),
+        
+    	// User only for classifieds document objects
+        'PrerenderCache' => array(
+            'adapter' => array(
+                'name' => 'filesystem'
+            ),
+            'options' => array(
+                'cache_dir' => 'data/cache/prerender',
+                'ttl' => 3600*12
+            ),
+			'plugins' => array(
+				array(
+					'name' => 'serializer',
+					'options' => array()
+				)
+			)
+        ),
     		
         // more cache adapters settings
     ),
