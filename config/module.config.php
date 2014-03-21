@@ -30,7 +30,8 @@ return array(
 			'cdn' => array(
                 'type' => 'Zend\Mvc\Router\Http\Hostname',
                 'options' => array( 
-                	'route' => 'static.neobazaar.com',
+                	//'route' => 'static.neobazaar.com',
+                	'route' => 'www.neobazaar.com',
                     'defaults' => array(),
                 ),
             ),
