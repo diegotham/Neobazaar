@@ -16,12 +16,6 @@ use Hashids\Hashids;
 class EntityRepository 
     extends EntityRepositoryAbstract
 {
-	/**
-	 * @var string
-	 */
-    protected static $encryptionKeyLeft = '';
-    protected static $encryptionKeyRight = '';
-    
     /**
      * @var ServiceLocatorInterface
      */
@@ -46,48 +40,6 @@ class EntityRepository
     }
 	
 	/**
-	 * Set $encryptionKeyLeft value
-	 * 
-	 * @param string $encryptionKeyLeft
-	 * @return void
-	 */
-	public static function setEncryptionKeyLeft($encryptionKeyLeft) 
-	{
-		self::$encryptionKeyLeft = $encryptionKeyLeft;
-	}
-	
-	/**
-	 * Get $encryptionKeyLeft value
-	 * 
-	 * @return string
-	 */
-	public static function getEncryptionKeyLeft() 
-	{
-		return self::$encryptionKeyLeft;
-	}
-	
-	/**
-	 * Set $encryptionKeyRight value
-	 * 
-	 * @param string $encryptionKeyRight
-	 * @return void
-	 */
-	public static function setEncryptionKeyRight($encryptionKeyRight) 
-	{
-		self::$encryptionKeyRight = $encryptionKeyRight;
-	}
-	
-	/**
-	 * Get $encryptionKeyRight value
-	 * 
-	 * @return string
-	 */
-	public static function getEncryptionKeyRight() 
-	{
-		return self::$encryptionKeyRight;
-	}
-	
-	/**
 	 * Get an entity using the encrypted ID
 	 * 
 	 * @param string $id
@@ -104,7 +56,6 @@ class EntityRepository
         $qb = $this->_em->createQueryBuilder();
         $qb->select(array('a'));
         $qb->from($this->getEntityName(), 'a');
-        //$qb->where($qb->expr()->eq('SHA1(CONCAT_WS(\'\', \'' . self::getEncryptionKeyLeft() . '\', a.' . $field . ', \'' . self::getEncryptionKeyRight() . '\'))', ':value'));
         $qb->where($qb->expr()->eq($field, ':value'));
         $qb->setParameter('value', $id);
         $result = $qb->getQuery()->getResult();
@@ -125,6 +76,5 @@ class EntityRepository
 	    $hash = $hashids->encrypt($id);
 	    
 	    return $hash;
-		//return sha1(self::getEncryptionKeyLeft() . $id . self::getEncryptionKeyRight());
 	}
 }
