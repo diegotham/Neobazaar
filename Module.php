@@ -28,10 +28,8 @@ class Module
         $config = $sm->get('config');
         $encryptionKeyLeft = isset($config['encryption_key_left']) ? $config['encryption_key_left'] : '';
         $encryptionKeyRight = isset($config['encryption_key_right']) ? $config['encryption_key_right'] : '';
-        $dummyUserId = isset($config['dummy_user_id']) ? $config['dummy_user_id'] : '';
         Doctrine\ORM\EntityRepository::setEncryptionKeyLeft($encryptionKeyLeft);
         Doctrine\ORM\EntityRepository::setEncryptionKeyRight($encryptionKeyRight);
-        Doctrine\ORM\EntityRepository::setDummyUserId($dummyUserId);
         
         $em->attach(MvcEvent::EVENT_ROUTE, function($e) use ($em, $module) {
             $match = $e->getRouteMatch();

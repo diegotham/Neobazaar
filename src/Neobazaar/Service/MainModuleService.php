@@ -102,6 +102,7 @@ class MainModuleService
     	$entityRepository = $this->getEntityManager()->getRepository('Neobazaar\Entity\Document');
     	$entityRepository->setSphinxClient($sphinxClient);
     	$entityRepository->setSphinxSearch(true);
+    	$entityRepository->setServiceLocator($this->getServiceManager());
     	$this->er['Document'] = $entityRepository;
     	
     	return $entityRepository;

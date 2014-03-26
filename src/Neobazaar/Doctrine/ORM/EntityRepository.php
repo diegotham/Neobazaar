@@ -5,6 +5,11 @@ use Razor\Doctrine\ORM\EntityRepository as EntityRepositoryAbstract;
 
 use Doctrine\Common\Util\Debug as DDebug;
 
+use Zend\ServiceManager\ServiceLocatorAwareInterface,
+    Zend\ServiceManager\ServiceLocatorInterface;
+
+use Hashids\Hashids;
+
 /**
  * @ORM\MappedSuperclass
  */
@@ -18,10 +23,27 @@ class EntityRepository
     protected static $encryptionKeyRight = '';
     
     /**
-     * The user used to relate document with no user
-     * @var unknown
+     * @var ServiceLocatorInterface
      */
-    protected static $dummyUserId;
+    protected $serviceManager;
+    
+    /**
+     * 
+     * @param ServiceLocatorInterface $serviceLocator
+     */
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
+    {
+        $this->serviceManager = $serviceLocator;
+    }
+    
+    /**
+     * 
+     * @return \Zend\ServiceManager\ServiceLocatorInterface
+     */
+    public function getServiceLocator()
+    {
+        return $this->serviceManager;
+    }
 	
 	/**
 	 * Set $encryptionKeyLeft value
@@ -66,27 +88,6 @@ class EntityRepository
 	}
 	
 	/**
-	 * Set $dummyUserId value
-	 * 
-	 * @param string $dummyUserId
-	 * @return void
-	 */
-	public static function setDummyUserId($dummyUserId) 
-	{
-		self::$dummyUserId = $dummyUserId;
-	}
-	
-	/**
-	 * Get $dummyUserId value
-	 * 
-	 * @return string
-	 */
-	public static function getDummyUserId() 
-	{
-		return self::$dummyUserId;
-	}
-	
-	/**
 	 * Get an entity using the encrypted ID
 	 * 
 	 * @param string $id
@@ -95,11 +96,16 @@ class EntityRepository
 	 */
 	public function findByEncryptedId($id, $field = 'id') 
 	{
+	    $config = $this->getServiceLocator()->get('Neobazaar\Options\ModuleOptions');
+	    $hashids = new Hashids($config->getHashSalt());
+	    $id = $hashids->decrypt($id);
+	    
         $options = array(); 
         $qb = $this->_em->createQueryBuilder();
         $qb->select(array('a'));
         $qb->from($this->getEntityName(), 'a');
-        $qb->where($qb->expr()->eq('SHA1(CONCAT_WS(\'\', \'' . self::getEncryptionKeyLeft() . '\', a.' . $field . ', \'' . self::getEncryptionKeyRight() . '\'))', ':value'));
+        //$qb->where($qb->expr()->eq('SHA1(CONCAT_WS(\'\', \'' . self::getEncryptionKeyLeft() . '\', a.' . $field . ', \'' . self::getEncryptionKeyRight() . '\'))', ':value'));
+        $qb->where($qb->expr()->eq($field, ':value'));
         $qb->setParameter('value', $id);
         $result = $qb->getQuery()->getResult();
         
@@ -114,6 +120,11 @@ class EntityRepository
 	 */
 	public function getEncryptedId($id) 
 	{
-		return sha1(self::getEncryptionKeyLeft() . $id . self::getEncryptionKeyRight());
+	    $config = $this->getServiceLocator()->get('Neobazaar\Options\ModuleOptions');
+	    $hashids = new Hashids($config->getHashSalt());
+	    $hash = $hashids->encrypt($id);
+	    
+	    return $hash;
+		//return sha1(self::getEncryptionKeyLeft() . $id . self::getEncryptionKeyRight());
 	}
 }
