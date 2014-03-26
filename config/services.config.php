@@ -15,13 +15,7 @@ return array(
 
 			return $em;
 		},
-		'neobazaar.service.main' => function (\Zend\ServiceManager\ServiceLocatorInterface $sl) {
-			$service = new Service\MainModuleService;
-			$service->setEntityManager($sl->get('neobazaar.doctrine.em'));
-			$service->setView($sl->get('Zend\View\Renderer\PhpRenderer'));
-			
-			return $service;
-		},
+		'neobazaar.service.main' => new Service\NeobazaarMainServiceFactory(),
 		'Neobazaar\Options\ModuleOptions' => new Service\ModuleOptionsFactory()
 	),
 );
