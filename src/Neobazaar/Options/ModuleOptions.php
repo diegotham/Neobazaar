@@ -6,21 +6,21 @@ use Zend\Stdlib\AbstractOptions;
 class ModuleOptions 
     extends AbstractOptions 
         implements
-            SaltOptionsInterface
+            HashSaltOptionsInterface
 {
     /**
      * @var string
      */
-    protected $salt;
+    protected $hashSalt;
         
     /**
      * Get Salt
      *
      * @return string
      */
-    public function getSalt() 
+    public function getHashSalt() 
     {
-        return $this->salt;
+        return $this->hashSalt;
     }
     
     /**
@@ -28,9 +28,9 @@ class ModuleOptions
      *
      * @return ModuleOptions
      */
-    public function setSalt($salt) 
+    public function setHashSalt($hashSalt) 
     {
-        $this->salt = $salt;
+        $this->hashSalt = $hashSalt;
         
         return $this;
     }

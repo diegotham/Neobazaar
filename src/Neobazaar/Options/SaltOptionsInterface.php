@@ -1,20 +1,20 @@
 <?php
 namespace Neobazaar\Options;
 
-interface SaltOptionsInterface
+interface HashSaltOptionsInterface
 {
     /**
      * Set salt
      *
-     * @param string $salt
+     * @param string $hashsalt
      * @return ModuleOptions
      */
-    public function setSalt($salt);
+    public function setHashSalt($hashsalt);
 
     /**
-     * Get sender
+     * Get $hashsalt
      *
      * @return string
      */
-    public function getSalt();
+    public function getHashSalt();
 }

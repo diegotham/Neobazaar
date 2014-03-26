@@ -2,6 +2,6 @@
 
 return array(
     'NeobazaarMainModule' => array(
-        'salt' => 'ThisIsNeobazaarSalt',
+        'hashSalt' => 'ThisIsNeobazaarSalt',
     ),
 );

@@ -4,7 +4,7 @@ namespace Neobazaar\Service;
 use Zend\ServiceManager\ServiceLocatorInterface,
 	Zend\ServiceManager\FactoryInterface;
 
-use Mailer\Options\ModuleOptions;
+use Neobazaar\Options\ModuleOptions;
 
 class ModuleOptionsFactory
 	implements FactoryInterface

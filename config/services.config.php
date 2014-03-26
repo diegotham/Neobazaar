@@ -22,5 +22,6 @@ return array(
 			
 			return $service;
 		},
+		'Neobazaar\Options\ModuleOptions' => new Service\ModuleOptionsFactory()
 	),
 );
