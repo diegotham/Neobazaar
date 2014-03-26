@@ -65,6 +65,7 @@ class DocumentRepository
 			}
 		}
 		if($isLoggedUserSearch) {
+			    throw new \Exception('WIP hashid');
 			$qb = $this->_em->createQueryBuilder();
 			$qb->select(array('a'));
 			$qb->from($this->getEntityName(), 'a');
