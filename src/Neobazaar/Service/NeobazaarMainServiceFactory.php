@@ -6,7 +6,7 @@ use Zend\ServiceManager\ServiceLocatorInterface,
 
 use Neobazaar\Options\ModuleOptions;
 
-class NeobazaarMailServiceFactory
+class NeobazaarMainServiceFactory
 	implements FactoryInterface
 {
     /**
