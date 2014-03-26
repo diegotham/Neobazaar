@@ -102,7 +102,9 @@ class DocumentRepository
 			$qb->setParameter('paramDocumentType', Document::DOCUMENT_TYPE_CLASSIFIED);
 			
 			if($userId) {
-				$qb->andWhere($qb->expr()->eq('SHA1(CONCAT_WS(\'\', \'' . self::getEncryptionKeyLeft() . '\', a.user, \'' . self::getEncryptionKeyRight() . '\'))', ':paramUserId'));
+			    throw new \Exception('WIP hashid');
+				//$qb->andWhere($qb->expr()->eq('SHA1(CONCAT_WS(\'\', \'' . self::getEncryptionKeyLeft() . '\', a.user, \'' . self::getEncryptionKeyRight() . '\'))', ':paramUserId'));
+				$qb->andWhere($qb->expr()->eq('a.user', ':paramUserId'));
 				//$qb->andWhere($qb->expr()->eq('a.user', ':paramUserId'));
 				$qb->setParameter('paramUserId', $userId);
 			}
@@ -296,7 +298,6 @@ class DocumentRepository
 				break;
 			default:
 				$cache = $sm->get('ClassifiedCache');
-				$main = $sm->get('neobazaar.service.main');
 				$key = $this->getEncryptedId($document->getDocumentId());
 				
 				// document model

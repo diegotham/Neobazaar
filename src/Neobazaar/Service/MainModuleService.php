@@ -142,7 +142,9 @@ class MainModuleService
     	if(isset($this->er['User'])) {
     		return $this->er['User'];
     	}
-    	$this->er['User'] = $this->getEntityManager()->getRepository('Neobazaar\Entity\User');
+    	$entityRepository = $this->getEntityManager()->getRepository('Neobazaar\Entity\User');
+    	$entityRepository->setServiceLocator($this->getServiceManager());
+    	$this->er['User'] = $entityRepository;
     	
     	return $this->er['User'];
     }

@@ -51,12 +51,13 @@ class EntityRepository
 	    $config = $this->getServiceLocator()->get('Neobazaar\Options\ModuleOptions');
 	    $hashids = new Hashids($config->getHashSalt());
 	    $id = $hashids->decrypt($id);
+	    $id = is_array($id) ? reset($id) : $id;
 	    
         $options = array(); 
         $qb = $this->_em->createQueryBuilder();
         $qb->select(array('a'));
         $qb->from($this->getEntityName(), 'a');
-        $qb->where($qb->expr()->eq($field, ':value'));
+        $qb->where($qb->expr()->eq('a.' . $field, ':value'));
         $qb->setParameter('value', $id);
         $result = $qb->getQuery()->getResult();
         
