@@ -8,8 +8,6 @@ use Doctrine\Common\Util\Debug as DDebug;
 use Zend\ServiceManager\ServiceLocatorAwareInterface,
     Zend\ServiceManager\ServiceLocatorInterface;
 
-use Hashids\Hashids;
-
 /**
  * @ORM\MappedSuperclass
  */
@@ -48,8 +46,7 @@ class EntityRepository
 	 */
 	public function findByEncryptedId($id, $field = 'id') 
 	{
-	    $config = $this->getServiceLocator()->get('Neobazaar\Options\ModuleOptions');
-	    $hashids = new Hashids($config->getHashSalt());
+	    $hashids = $this->getServiceLocator()->get('neobazaar.service.hashid');
 	    $id = $hashids->decrypt($id);
 	    $id = is_array($id) ? reset($id) : $id;
 	    
@@ -72,8 +69,7 @@ class EntityRepository
 	 */
 	public function getEncryptedId($id) 
 	{
-	    $config = $this->getServiceLocator()->get('Neobazaar\Options\ModuleOptions');
-	    $hashids = new Hashids($config->getHashSalt());
+	    $hashids = $this->getServiceLocator()->get('neobazaar.service.hashid');
 	    $hash = $hashids->encrypt($id);
 	    
 	    return $hash;

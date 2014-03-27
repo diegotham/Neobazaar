@@ -3,5 +3,6 @@
 return array(
     'NeobazaarMainModule' => array(
         'hashSalt' => 'ThisIsNeobazaarSalt',
+        'hashLength' => 6,
     ),
 );

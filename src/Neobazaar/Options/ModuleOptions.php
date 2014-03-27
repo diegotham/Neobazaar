@@ -12,6 +12,33 @@ class ModuleOptions
      * @var string
      */
     protected $hashSalt;
+    
+    /**
+     * @var string
+     */
+    private $hashLength;
+        
+    /**
+     * Get HashLength
+     *
+     * @return 
+     */
+    public function getHashLength() 
+    {
+        return $this->hashLength;
+    }
+    
+    /**
+     * Set HashLength
+     *
+     * @return 
+     */
+    public function setHashLength($hashLength) 
+    {
+        $this->hashLength = $hashLength;
+        
+        return $this;
+    }
         
     /**
      * Get Salt

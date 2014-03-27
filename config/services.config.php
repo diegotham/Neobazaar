@@ -16,6 +16,10 @@ return array(
 			return $em;
 		},
 		'neobazaar.service.main' => new Service\NeobazaarMainServiceFactory(),
-		'Neobazaar\Options\ModuleOptions' => new Service\ModuleOptionsFactory()
+		'Neobazaar\Options\ModuleOptions' => new Service\ModuleOptionsFactory(),
+		'Neobazaar\Service\HashId' => new Service\HashIdFactory()
+	),
+	'aliases' => array(
+		'neobazaar.service.hashid' => 'Neobazaar\Service\HashId'
 	),
 );

@@ -9,7 +9,7 @@ interface HashSaltOptionsInterface
      * @param string $hashsalt
      * @return ModuleOptions
      */
-    public function setHashSalt($hashsalt);
+    public function setHashSalt($hashSalt);
 
     /**
      * Get $hashsalt
@@ -17,4 +17,19 @@ interface HashSaltOptionsInterface
      * @return string
      */
     public function getHashSalt();
+    
+    /**
+     * Set hash length
+     *
+     * @param string $hashLength
+     * @return ModuleOptions
+     */
+    public function setHashLength($hashLength);
+
+    /**
+     * Get $hashLength
+     *
+     * @return string
+     */
+    public function getHashLength();
 }
