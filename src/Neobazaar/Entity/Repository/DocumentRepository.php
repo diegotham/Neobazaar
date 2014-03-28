@@ -65,7 +65,7 @@ class DocumentRepository
 			}
 		}
 		if($isLoggedUserSearch) {
-			    throw new \Exception('WIP hashid');
+			    //throw new \Exception('WIP hashid');
 			$qb = $this->_em->createQueryBuilder();
 			$qb->select(array('a'));
 			$qb->from($this->getEntityName(), 'a');
@@ -103,9 +103,11 @@ class DocumentRepository
 			$qb->setParameter('paramDocumentType', Document::DOCUMENT_TYPE_CLASSIFIED);
 			
 			if($userId) {
-			    throw new \Exception('WIP hashid');
-				//$qb->andWhere($qb->expr()->eq('SHA1(CONCAT_WS(\'\', \'' . self::getEncryptionKeyLeft() . '\', a.user, \'' . self::getEncryptionKeyRight() . '\'))', ':paramUserId'));
-				$qb->andWhere($qb->expr()->eq('a.user', ':paramUserId'));
+			    $hashids = $this->getServiceLocator()->get('neobazaar.service.hashid');
+			    $userId = $hashids->decrypt($id);
+                $userId = is_array($userId) ? reset($userId) : $userId;
+			    
+			    $qb->andWhere($qb->expr()->eq('a.user', ':paramUserId'));
 				//$qb->andWhere($qb->expr()->eq('a.user', ':paramUserId'));
 				$qb->setParameter('paramUserId', $userId);
 			}
