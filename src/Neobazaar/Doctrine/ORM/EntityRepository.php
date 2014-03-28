@@ -62,7 +62,7 @@ class EntityRepository
 	}
 	
 	/**
-	 * Return the encrypted id
+	 * Return the encrypted id using hash id service
 	 * 
 	 * @param int $id
 	 * @return string
