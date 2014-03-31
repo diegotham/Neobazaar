@@ -37,9 +37,9 @@ class UserRepository
 			} else {
 				if(self::CURRENT_KEYWORD == $user) {
 				    // @todo Not a wok of the repo, do it in another place!
-					//$zfcUserAuth = $sm->get('ControllerPluginManager')->get('zfcUserAuthentication');
-					//$user = $zfcUserAuth->hasIdentity() ? $zfcUserAuth->getIdentity() : null;
-					$user = null;
+					$zfcUserAuth = $sm->get('ControllerPluginManager')->get('zfcUserAuthentication');
+					$user = $zfcUserAuth->hasIdentity() ? $zfcUserAuth->getIdentity() : null;
+					//$user = null;
 				} else {
 					$user = $this->findByEncryptedId($user, 'userId');
 				}
@@ -51,9 +51,7 @@ class UserRepository
 		}
 	
 		$userModel = $sm->get('user.model.user');
-		$userModel->setServiceManager($sm);
-		$userModel->setUserEntity($user);
-		$userModel->init();
+		$userModel->init($user, $sm);
 		
 		return $userModel;
 	}
