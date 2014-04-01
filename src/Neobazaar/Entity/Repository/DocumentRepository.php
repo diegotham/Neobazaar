@@ -305,7 +305,9 @@ class DocumentRepository
 				
 				// document model
 				if(!$file = $cache->getItem($key)) {
-            		$file = $sm->get('document.model.classified');
+				    // sensible data is not present in this model, 
+				    // @todo: inject using param?
+            		$file = $sm->get('document.model.classifiedPublicListing');
             		$file->init($document, $sm);
 				}
 
