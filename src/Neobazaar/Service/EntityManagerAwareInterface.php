@@ -1,5 +1,5 @@
 <?php 
-namespace Neobazaar\Service\Initializer;
+namespace Neobazaar\Service;
 
 interface EntityManagerAwareInterface 
 {

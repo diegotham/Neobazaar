@@ -1,10 +1,19 @@
 <?php 
 namespace Neobazaar\Service\Initializer;
 
+use Zend\ServiceManager\InitializerInterface,
+    Zend\ServiceManager\ServiceLocatorInterface,
+    Zend\Debug\Debug;
+
+use Neobazaar\Service\EntityManagerAwareInterface;
+
 class EntityManagerAwareInitializer 
+    implements InitializerInterface
 {
-    public function __construct() 
+    public function initialize($instance, ServiceLocatorInterface $serviceLocator) 
     {
-        die('test');
+        if($instance instanceof EntityManagerAwareInterface) {
+            $instance->setEntityManager($serviceLocator->get('neobazaar.doctrine.em'));
+        }
     }
 }
