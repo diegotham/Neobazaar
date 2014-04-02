@@ -58,10 +58,6 @@ class DocumentRepository
 					$isLoggedUserSearch = true;
 					$userId = $values[$key];
 					break;
-				case 'admin':
-					$isFullSearch = true;
-					$userId = $values[$key];
-					break;
 			}
 		}
 		if($isLoggedUserSearch) {
@@ -78,43 +74,6 @@ class DocumentRepository
 			$qb->setParameter('paramDocumentState', Document::DOCUMENT_STATE_DELETED);
 			//$qb->addOrderBy('COALESCE(a.dateEdit, a.dateInsert)', 'DESC');
 			//$qb->addOrderBy('a.documentId', 'DESC');
-			$qb->addOrderBy('a.dateEdit', 'DESC');
-			$query = $qb->getQuery();
-			$query->setFirstResult($params['offset']);
-			$query->setMaxResults($params['limit']);
-			$paginatorAdapter = new DoctrinePaginatorAdapter(new DoctrinePaginator($query));
-			
-			
-// 			$paginator = new DoctrinePaginator($query, $fetchJoinCollection = true);
-// 			$result = array();
-// 			foreach($paginator as $p) {
-// 				$result[] = $p->getDocumentId();
-// 			}
-// 			$result = $query->getResult();
-// 			$paginatorAdapter =  new RazorPaginator(
-// 				$result,
-// 				count($paginator)
-// 			);
-		} elseif($isFullSearch) {
-			$qb = $this->_em->createQueryBuilder();
-			$qb->select(array('a'));
-			$qb->from($this->getEntityName(), 'a');
-			$qb->andWhere($qb->expr()->eq('a.documentType', ':paramDocumentType'));
-			$qb->setParameter('paramDocumentType', Document::DOCUMENT_TYPE_CLASSIFIED);
-			
-			if($userId) {
-			    $hashids = $this->getServiceLocator()->get('neobazaar.service.hashid');
-			    $userId = $hashids->decrypt($id);
-                $userId = is_array($userId) ? reset($userId) : $userId;
-			    
-			    $qb->andWhere($qb->expr()->eq('a.user', ':paramUserId'));
-				//$qb->andWhere($qb->expr()->eq('a.user', ':paramUserId'));
-				$qb->setParameter('paramUserId', $userId);
-			}
-			
-			//$qb->addOrderBy('a.documentId', 'DESC');
-			
-			
 			$qb->addOrderBy('a.dateEdit', 'DESC');
 			$query = $qb->getQuery();
 			$query->setFirstResult($params['offset']);
@@ -228,13 +187,18 @@ class DocumentRepository
 			unset($queryParams['account']);
 			$queryParams['current'] = true;
 			$routeName = 'DocumentAccount/page';
-		} elseif(array_key_exists('admin', $queryParams)) {
-			$queryParams['full'] = true;
-			$queryParams['user'] = $queryParams['admin'];
-			unset($queryParams['admin']);
-			$routeName = 'DocumentAdminClassified/page';
 		}
-
+		
+		return $this->getPaginationData($sm, $paginator, $data, $routeName, $routeParams, $queryParams);
+	}
+	
+	/**
+	 * Get a pagination JSON data.
+	 * 
+	 * @todo Find how to better manage this
+	 */
+	public function getPaginationData(ServiceManager $sm, $paginator, $data, $routeName, $routeParams, $queryParams) 
+	{
 		$mainService = $sm->get('neobazaar.service.main');
 		return array(
 			'data' => $data,
