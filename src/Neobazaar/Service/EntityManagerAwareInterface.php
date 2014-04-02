@@ -1,6 +1,8 @@
 <?php 
 namespace Neobazaar\Service;
 
+use Doctrine\ORM\EntityManagerInterface;
+
 interface EntityManagerAwareInterface 
 {
     /**
