@@ -1,7 +1,8 @@
 <?php 
 namespace Neobazaar;
 
-use Neobazaar\Entity\Event\UserUniqueCheck;
+use Neobazaar\Entity\Event\UserUniqueCheck,
+    Neobazaar\Service\Initializer\EntityManagerAwareInitializer;
 
 return array(
 	'factories' => array(
@@ -18,6 +19,9 @@ return array(
 		'neobazaar.service.main' => new Service\NeobazaarMainServiceFactory(),
 		'Neobazaar\Options\ModuleOptions' => new Service\ModuleOptionsFactory(),
 		'Neobazaar\Service\HashId' => new Service\HashIdFactory()
+	),
+	'initializers' => array(
+	    'Neobazaar\Service\Initializer\EntityManagerAwareInitializer' => new EntityManagerAwareInitializer()
 	),
 	'aliases' => array(
 		'neobazaar.service.hashid' => 'Neobazaar\Service\HashId'
