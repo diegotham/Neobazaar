@@ -303,4 +303,30 @@ class DocumentRepository
 				
 		return $file;
 	}
+	
+	/**
+	 * Restituisce una entità da un id numerico o hash
+	 * 
+	 * @param string|int $idOrDocument
+	 * @throws \Exception
+	 * @return \Neobazaar\Entity\Document
+	 */
+    public function getEntity($idOrDocument) 
+    {
+    	if(!$idOrDocument instanceof Document) {
+    		if(is_numeric($idOrDocument)) {
+    			$document = $this->find($idOrDocument);
+    		} else {
+    			$document = $this->findByEncryptedId($idOrDocument, 'documentId');
+    		}
+    	} else {
+    		$document = $idOrDocument;
+    	}
+		
+		if(!$document instanceof Document) {
+			throw new \Exception('The document is not a correct instance');
+		}
+    	
+    	return $document;
+    }
 }
