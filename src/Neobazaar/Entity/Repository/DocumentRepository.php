@@ -237,6 +237,7 @@ class DocumentRepository
 	/**
 	 * Return a normalized representation of a document
 	 * 
+	 * @deprecated Use specific get depending on model type, @too create a model generator service that return cached entry if any
 	 * @param int|\Neobazaar\Entity\Document $id
 	 * @param ServiceManager 
 	 * @param boolean wheter or not chec if user is admin, owner ecc

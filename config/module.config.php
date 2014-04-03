@@ -89,7 +89,24 @@ return array(
                 'name' => 'filesystem'
             ),
             'options' => array(
-                'cache_dir' => 'data/cache/document/classified',
+                'cache_dir' => 'data/cache/document/classified/public',
+                'ttl' => 3600*12
+            ),
+			'plugins' => array(
+				array(
+					'name' => 'serializer',
+					'options' => array()
+				)
+			)
+        ),
+        
+    	// User only for classifieds document objects
+        'ClassifiedCacheOwnerAdmin' => array(
+            'adapter' => array(
+                'name' => 'filesystem'
+            ),
+            'options' => array(
+                'cache_dir' => 'data/cache/document/classified/private',
                 'ttl' => 3600*12
             ),
 			'plugins' => array(
