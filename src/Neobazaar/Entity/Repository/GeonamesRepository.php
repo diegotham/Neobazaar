@@ -159,8 +159,8 @@ class GeonamesRepository
 		$qb = $this->_em->createQueryBuilder();
 		$qb->select(array('a'));
 		$qb->from($this->getEntityName(), 'a');		
-		$qb->andWhere($qb->expr()->neq('a.featureCode', ':paramFeatureCode'));
-		$qb->setParameter('paramFeatureCode', Geonames::FEATURE_CODE_ADM3);
+		//$qb->andWhere($qb->expr()->neq('a.featureCode', ':paramFeatureCode'));
+		//$qb->setParameter('paramFeatureCode', Geonames::FEATURE_CODE_ADM3);
 		$qb->addOrderBy('a.geonameId', 'ASC');
 		
 		return $qb->getQuery()->iterate();
