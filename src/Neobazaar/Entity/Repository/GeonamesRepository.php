@@ -1,7 +1,8 @@
 <?php 
 namespace Neobazaar\Entity\Repository;
 
-use Neobazaar\Doctrine\ORM\EntityRepository;
+use Neobazaar\Doctrine\ORM\EntityRepository, 
+    Neobazaar\Entity\Geonames;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -146,5 +147,22 @@ class GeonamesRepository
 		$result = $qb->getQuery()->getResult();
 		
         return is_array($result) ? reset($result) : $result;
+	}
+	
+	/**
+	 * Return an IterableResult to create sitemap entries
+	 * 
+	 * @return \Doctrine\ORM\Internal\Hydration\IterableResult 
+	 */
+	public function getSitemapLocationsIterableResult() 
+	{
+		$qb = $this->_em->createQueryBuilder();
+		$qb->select(array('a'));
+		$qb->from($this->getEntityName(), 'a');		
+		$qb->andWhere($qb->expr()->neq('a.featureCode', ':paramFeatureCode'));
+		$qb->setParameter('paramFeatureCode', Geonames::FEATURE_CODE_ADM3);
+		$qb->addOrderBy('a.geonameId', 'ASC');
+		
+		return $qb->getQuery()->iterate();
 	}
 }

@@ -16,6 +16,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Geonames
 {
+	// DocumentType enum values
+	const FEATURE_CODE_PCLI = 'PCLI';
+	const FEATURE_CODE_ADM1 = 'ADM1';
+	const FEATURE_CODE_ADM2 = 'ADM2';
+	const FEATURE_CODE_ADM3 = 'ADM3';
+	
     /**
      * @var integer
      *
