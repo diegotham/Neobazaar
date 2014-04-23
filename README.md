@@ -17,6 +17,8 @@ It is composed by the following modules:
 - [Neobazaar User Module](https://github.com/kaiohken1982/NeobazaarUserModule)
 - [Neobazaar Mailer Module](https://github.com/kaiohken1982/NeobazaarMailerModule) 
 - [Neobazaar Public Application](https://github.com/kaiohken1982/NeobazaarPublicApplication)
+- [Neobazaar Sitemap Module](https://github.com/kaiohken1982/NeobazaarSitemapModule)
+- [Neobazaar Prerender Listener Module](https://github.com/kaiohken1982/NeobazaarPrerenderListenerModule)
 
 ### Duties of this module
 
@@ -39,6 +41,15 @@ It is composed by the following modules:
     }
 }
  ```
+ 
+### Schema generation and other Doctrine 2 Tool
+
+You must register this module and Doctrine modules in order to user the following console commands in 
+config/application.config.php. 
+Furthermore you must move into your project root directory.
+
+- ./vendor/bin/doctrine-module orm:schema-tool:create
+
 
 ### Run unit test
  
@@ -57,3 +68,8 @@ Neobazaar\tests\data\coverage
 ```
 ./vendor/bin/phpunit --coverage-html data/coverage
 ```
+
+### TODO
+
+Remove dependency with razor/razor and port here Razor\Doctrine\ORM\* class.
+Refactor all that part using a separate Sphinx module.
