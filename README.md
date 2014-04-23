@@ -50,6 +50,17 @@ Furthermore you must move into your project root directory.
 
 - ./vendor/bin/doctrine-module orm:schema-tool:create
 
+### About HashID
+
+This module can use an hashed id to get entity. 
+Hashed id are provided by defalt by hashid module (service 'neobazaar.service.hashid').
+All entity repositories extends the same entity repository abstract that provide the method 
+findByEncryptedId($id, $field = 'id'). 
+The hashing algorithm must be configured using a config file (neobazaar.{env}.php) that 
+must be included in your autoload directory, check the config/neobazaar.local.php.dist 
+file example.
+Once chosen, hashSalt adn hashLength must not be changed if these ids 
+are used by search engine for indexing your website pages!
 
 ### Run unit test
  
