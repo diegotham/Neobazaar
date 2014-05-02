@@ -24,6 +24,7 @@ class DocumentRepositoryTest
     {
         $sm = Bootstrap::getServiceManager();
         $this->repository = $sm->get('Neobazaar\Entity\Repository\DocumentRepository');
+        $this->repository->setServiceLocator($sm);
         
         // SphinxClient Mock
         $sphinxClient = $this->getMock('SphinxClient', array('getLastSearchCount'));
@@ -74,26 +75,6 @@ class DocumentRepositoryTest
     }
 
     /**
-     * @cover Neobazaar\Entity\Repository\DocumentRepository::getPaginator()
-     */
-    public function testGetPaginatoAdminAccount() 
-    {
-        $paginator = $this->repository->getPaginator(array(
-            'limit' => 10,
-            'offset' => 0,
-            'field' => array(
-                'admin'
-            ),
-            'value' => array(
-                1
-            ),
-            'returnSelect' => true
-        ));
-
-        $this->assertTrue(0 === $paginator->count());
-    }
-
-    /**
      * @cover Neobazaar\Entity\Repository\DocumentRepository::getExpiredElegibleToMailSend()
      */
     public function testGetExpiredElegibleToMailSend() 
@@ -110,6 +91,16 @@ class DocumentRepositoryTest
     {
         $sm = Bootstrap::getServiceManager();
         
+        // Mock 'neobazaar.service.hashid' service
+        $mock = $this->getMock('Neobazaar\Service\HashId', array('encrypt', 'decrypt'));
+        $mock->expects($this->any())
+        ->method('encrypt')
+        ->will($this->returnValue('xyzabc'));
+        $mock->expects($this->any())
+        ->method('decrypt')
+        ->will($this->returnValue('xyzabc'));
+        $sm->setService('neobazaar.service.hashid', $mock);
+        
         $mock = $this->getMockBuilder('Zend\Cache\Storage\Adapter\Apc', array('getEncryptedId'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -119,7 +110,7 @@ class DocumentRepositoryTest
         $sm->setService('ClassifiedCache', $mock);
         
         // Mock 'Document\Model\Document' service
-        $mock = $this->getMock('Document\Model\Classified', array('setServiceManager', 'setUserEntity', 'init'));
+        $mock = $this->getMock('Document\Model\Classified\PublicListing', array('setServiceManager', 'setUserEntity', 'init'));
         $mock->expects($this->any())
             ->method('setServiceManager')
             ->will($this->returnSelf());
@@ -129,7 +120,7 @@ class DocumentRepositoryTest
         $mock->expects($this->any())
             ->method('init')
             ->will($this->returnSelf());
-        $sm->setService('document.model.classified', $mock);
+        $sm->setService('document.model.classifiedPublicListing', $mock);
         
         $list = $this->repository->getList(array(
             'returnSelect' => true
