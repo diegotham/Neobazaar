@@ -31,7 +31,7 @@ return array(
                 'type' => 'Literal',
                 'priority' => 1000,
                 'options' => array(
-                    'route' => '/activation-email-resend',
+                    'route' => '/resend-activation-email',
                     'defaults' => array(
                         'controller' => __NAMESPACE__ . '\Controller\Index',
                         'action'     => 'activation-email-resend',
