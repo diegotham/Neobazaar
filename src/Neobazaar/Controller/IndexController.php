@@ -113,4 +113,33 @@ class IndexController
 //         return $viewModel;
 		return new JsonModel($data);
 	}
+	
+	/**
+	 * This is needed because of mailserver goes down.
+	 * Will resend activation email to those classifieds where date_insert = date_edit and state = 2.
+	 * Dispatch a classified created event with data
+	 * 
+	 * 
+	 */
+	public function activationEmailResendAction() 
+	{
+	    $classifiedService = $this->getServiceLocator()->get('document.service.classified');
+		
+		try {
+			$ids = $classifiedService->activationEmailResend(1);
+			$data = array(
+				'status' => 'success',
+				'message' => implode(", ", $ids)
+			);
+		} catch(\Exception $e) {
+			$this->getResponse()
+				->setStatusCode(Response::STATUS_CODE_500);
+			$data = array(
+				'status' => 'danger',
+				'message' => $e->getMessage()
+			);
+		}
+		
+		return new JsonModel($data);
+	}
 }

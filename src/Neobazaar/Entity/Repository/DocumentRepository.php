@@ -150,6 +150,39 @@ class DocumentRepository
 	}
 	
 	/**
+	 * This return a list of $limit documents
+	 * that needs to have activation email to be resent.
+	 * The logic is:
+	 * 
+	 * state = 2
+	 * date edit and date insert are equal
+	 * 
+	 * After the email is sent, date edit is incremented by 1 sec 
+	 * so in the future we know wich document where touched by this method.
+	 * 
+	 * @param int $limit
+	 * @return Doctrine\ORM\Tools\Pagination\Paginator
+	 */
+	public function getClassifiedsThatNeedActivationEmailToBeResent($limit = 10) 
+	{
+		$qb = $this->_em->createQueryBuilder();
+		$qb->select(array('a'));
+		$qb->from($this->getEntityName(), 'a');
+		$qb->andWhere($qb->expr()->eq('a.dateEdit', 'a.dateInsert'));
+		$qb->andWhere($qb->expr()->eq('a.state', ':paramDocumentState'));
+		$qb->setParameter('paramDocumentState', Document::DOCUMENT_STATE_DEACTIVE);
+		
+		$qb->addOrderBy('a.dateEdit', 'ASC');
+		$qb->setFirstResult(0);
+		$qb->setMaxResults($limit);
+		
+		$query = $qb->getQuery();
+		$paginator = new DoctrinePaginator($query, $fetchJoinCollection = true);
+		
+		return $paginator;
+	}
+	
+	/**
 	 * Return a normalized representation of a set of document
 	 * 
 	 * @todo do not pass controller, create an utils service
