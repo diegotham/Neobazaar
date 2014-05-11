@@ -27,6 +27,18 @@ return array(
                 ),
         	),
         		
+        	__NAMESPACE__ . 'Reactivation' => array(
+                'type' => 'Literal',
+                'priority' => 1000,
+                'options' => array(
+                    'route' => '/activation-email-resend',
+                    'defaults' => array(
+                        'controller' => __NAMESPACE__ . '\Controller\Index',
+                        'action'     => 'activation-email-resend',
+                    ),
+                ),
+        	),
+        		
         	'static-data' => array(
                 'type' => 'Literal',
                 'priority' => 1000,
