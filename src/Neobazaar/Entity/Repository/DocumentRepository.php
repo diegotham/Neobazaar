@@ -169,7 +169,9 @@ class DocumentRepository
 		$qb->select(array('a'));
 		$qb->from($this->getEntityName(), 'a');
 		$qb->andWhere($qb->expr()->eq('a.dateEdit', 'a.dateInsert'));
+		$qb->andWhere($qb->expr()->eq('a.documentType', ':paramDocumentType'));
 		$qb->andWhere($qb->expr()->eq('a.state', ':paramDocumentState'));
+		$qb->setParameter('paramDocumentType', Document::DOCUMENT_TYPE_CLASSIFIED);
 		$qb->setParameter('paramDocumentState', Document::DOCUMENT_STATE_DEACTIVE);
 		
 		$qb->addOrderBy('a.dateEdit', 'ASC');
