@@ -554,7 +554,10 @@ class Document
      */
     public function preUpdate(PreUpdateEventArgs $eventArgs)
     {
-    	if (!$eventArgs->hasChangedField('visited')) {
+        // dateEdit aggiunto per dare la possibilità di forzare 
+        // la modifica di questo campo se necessario
+        if (!$eventArgs->hasChangedField('visited') 
+                && !$eventArgs->hasChangedField('dateEdit')) {
     		$this->setDateEdit(new \Datetime());
     	}
     }
