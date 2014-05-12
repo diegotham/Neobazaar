@@ -164,6 +164,16 @@ class User implements UserInterface
      *
      * @return integer 
      */
+    public function getId()
+    {
+        return $this->getUserId();
+    }
+
+    /**
+     * Get userId
+     *
+     * @return integer 
+     */
     public function getUserId()
     {
         return $this->userId;
@@ -236,6 +246,16 @@ class User implements UserInterface
     public function getNicename()
     {
         return $this->nicename;
+    }
+
+    /**
+     * Get nicename
+     *
+     * @return string 
+     */
+    public function getDisplayName()
+    {
+        return $this->getNicename();
     }
 
     /**
