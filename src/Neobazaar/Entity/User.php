@@ -7,6 +7,8 @@ use Doctrine\ORM\Mapping as ORM,
 	Doctrine\Common\Collections\ArrayCollection,
 	Doctrine\Common\Util\Debug as DDebug;
 
+use ZfcUser\Entity\UserInterface;
+
 /**
  * User
  *
@@ -19,7 +21,7 @@ use Doctrine\ORM\Mapping as ORM,
  * @ORM\HasLifecycleCallbacks
  * @ORM\Entity(repositoryClass="Neobazaar\Entity\Repository\UserRepository")
  */
-class User
+class User implements UserInterface
 {
 	// State enum values
 	const USER_STATE_ACTIVE = 1;
